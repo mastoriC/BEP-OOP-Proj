@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/BEP-OOP-Proj.iml" filepath="$PROJECT_DIR$/.idea/BEP-OOP-Proj.iml" />
       <module fileurl="file://$PROJECT_DIR$/Client-side/Client-side.iml" filepath="$PROJECT_DIR$/Client-side/Client-side.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Server-side/Server-side.iml" filepath="$PROJECT_DIR$/Server-side/Server-side.iml" />
       <module fileurl="file://$PROJECT_DIR$/test/test.iml" filepath="$PROJECT_DIR$/test/test.iml" />
     </modules>
   </component>
