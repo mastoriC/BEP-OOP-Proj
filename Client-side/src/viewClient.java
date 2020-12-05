@@ -1,25 +1,37 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.Objects;
 
-public class viewClient {
+public class viewClient implements ActionListener {
+    JFrame fr;
+    JButton refresh, print, cancel, choose;
+    JPanel queueListPanel, optionPanel, optionList;
+    JPanel southLayout, northLayout;
+    JTextArea queueList;
+    JLabel header;
+    JLabel nameFile, list;
+    JFileChooser fc;
 
     //default constructor
     public viewClient(){
-        JFrame fr;
-        JButton refresh, print, cancel, choose;
-        JPanel queueListPanel, optionPanel;
-        JPanel southLayout, northLayout;
-        JTextArea queueList;
-        JLabel nameFile, list;
+
+
+        //option selection
+        JLabel numberOfPage, numberOfPage2;
+
 
         fr = new JFrame("BEP: Print for anywhere");
         fr.setLayout(new BorderLayout());
 
         refresh = new JButton("refresh");
-        print = new JButton("print");
+        print = new JButton("Print");
         cancel = new JButton("Cancel");
 
-        queueList = new JTextArea();
+        queueList = new JTextArea("HelloWord.pdf",5,15);
+        queueList.setEditable(false);
         queueList.setSize(500, 500);
 
        queueListPanel = new JPanel();
@@ -37,7 +49,35 @@ public class viewClient {
 
        northLayout.setLayout(new FlowLayout());
        nameFile = new JLabel("File to upload");
+       choose = new JButton("Choose");
+       choose.addActionListener(this);
        northLayout.add(nameFile);
+       northLayout.add(choose);
+
+
+       //option panel
+        header = new JLabel("Choose your option");
+        optionList = new JPanel();
+        optionList.setLayout(new GridLayout(3,2));
+
+
+        numberOfPage = new JLabel( "coppies");
+        numberOfPage2 = new JLabel("เทส");
+        optionList.add(numberOfPage);
+        optionList.add(numberOfPage);
+        optionList.add(numberOfPage);
+        optionList.add(numberOfPage);
+        optionList.add(numberOfPage);
+        optionList.add(numberOfPage2);
+
+
+        optionPanel.setLayout(new GridLayout(3,1));
+        optionPanel.add(header);
+        optionPanel.add(optionList);
+
+
+
+
 
 
        fr.add(northLayout, BorderLayout.NORTH);
@@ -45,10 +85,26 @@ public class viewClient {
        fr.add(optionPanel, BorderLayout.CENTER);
        fr.add(southLayout, BorderLayout.SOUTH);
 
-        fr.setSize(500,500);
+       fr.setLocationRelativeTo(null);
+
+        fr.setSize(800,600);
         fr.setVisible(true);
 
 
 
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource().equals(choose)){
+            JFileChooser fc = new JFileChooser();
+            fc.showOpenDialog(fr);
+        }
+        else if(e.getSource().equals(cancel)){
+//            JOptionPane pop1 = new JOptionPane();
+            JOptionPane.showMessageDialog(fr,"Welcome in Roseindia");
+
+        }
     }
 }
