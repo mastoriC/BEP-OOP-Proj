@@ -2,6 +2,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.commons.logging.LogFactory;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,7 +19,9 @@ public class viewClient implements ActionListener {
     JTextArea queueList;
     JLabel header;
     JLabel nameFile, list;
+
     JFileChooser fc;
+    FileNameExtensionFilter extFilter = new FileNameExtensionFilter("PDF File", "pdf");
 
     File selectedFile;
     int NumberOfPages;
@@ -105,6 +108,13 @@ public class viewClient implements ActionListener {
 
     }
 
+    private String getFileExt() {
+        String fileName = selectedFile.getName();
+        if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
+            return fileName.substring(fileName.lastIndexOf(".")+1);
+        }
+        return "";
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -116,12 +126,18 @@ public class viewClient implements ActionListener {
             selectedFile = fc.getSelectedFile();
             pathPreview.setText(selectedFile.toString());
 
-            // get number of pages
-            try {
-                PDDocument doc = PDDocument.load(selectedFile);
-                NumberOfPages = doc.getNumberOfPages();
-            } catch (IOException exc) {
-                exc.printStackTrace();
+            // PDF File get number of pages
+            String fileExt = getFileExt();
+
+            if (fileExt.equals("pdf")) {
+                try {
+                    PDDocument doc = PDDocument.load(selectedFile);
+                    NumberOfPages = doc.getNumberOfPages();
+                } catch (IOException exc) {
+                    exc.printStackTrace();
+                }
+            } else if (fileExt.equals("docx")) {
+               /* Will include Apache POI @tanssw */
             }
 
         } else if (e.getSource().equals(cancel)) {
