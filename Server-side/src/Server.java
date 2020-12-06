@@ -15,17 +15,25 @@ public class Server {
             Socket connectionSocket = handshakeSocket.accept();
             InputStream is = connectionSocket.getInputStream();
             DataInputStream dis = new DataInputStream(is);
+
+            FileWriter fw = new FileWriter("./srvFiles/inQueue.dat", true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
         ) {
             fileName = dis.readUTF();
             fileSize = dis.readLong();
 
-            FileOutputStream fos = new FileOutputStream(fileName);
-            while (fileSize>0 && (bytesRead = dis.read(buff, 0, (int) Math.min(buff.length, fileSize))) != -1) {
-                fos.write(buff, 0, bytesRead);
-                fileSize -= bytesRead;
+            try (FileOutputStream fos = new FileOutputStream("./srvFiles/" + fileName)) {
+                while (fileSize>0 && (bytesRead = dis.read(buff, 0, (int) Math.min(buff.length, fileSize))) != -1) {
+                    fos.write(buff, 0, bytesRead);
+                    fileSize -= bytesRead;
+                }
+            } catch (IOException FOSexc) {
+                throw FOSexc;
             }
 
-            fos.close();
+            pw.println(fileName); // Append file name into file list.
+
         } catch (IOException exc) {
             System.out.println(exc);
         }

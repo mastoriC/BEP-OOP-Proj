@@ -16,6 +16,7 @@ public class Client {
         byte buff[] = new byte[(int) file.length()];
         try (
             Socket clientSocket = new Socket("localhost", 6789);
+
             OutputStream os = clientSocket.getOutputStream();
             DataOutputStream dos = new DataOutputStream(os);
 

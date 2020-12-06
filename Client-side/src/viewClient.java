@@ -1,8 +1,12 @@
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.commons.logging.LogFactory;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 
 public class viewClient implements ActionListener {
@@ -17,6 +21,7 @@ public class viewClient implements ActionListener {
     JFileChooser fc;
 
     File selectedFile;
+    int NumberOfPages;
     Client cliSocket = new Client();
 
     //default constructor
@@ -106,9 +111,17 @@ public class viewClient implements ActionListener {
             JFileChooser fc = new JFileChooser();
             fc.showOpenDialog(fr);
 
-            // get Selected Files and get name
+            // get path of selected file.
             selectedFile = fc.getSelectedFile();
             pathPreview.setText(selectedFile.toString());
+
+            // get number of pages
+            try {
+                PDDocument doc = PDDocument.load(selectedFile);
+                NumberOfPages = doc.getNumberOfPages();
+            } catch (IOException exc) {
+                exc.printStackTrace();
+            }
 
         } else if (e.getSource().equals(cancel)) {
 //            JOptionPane pop1 = new JOptionPane();
