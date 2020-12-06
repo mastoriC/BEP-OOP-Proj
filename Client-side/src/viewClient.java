@@ -100,6 +100,7 @@ public class viewClient implements ActionListener {
         fr.add(southLayout, BorderLayout.SOUTH);
 
         fr.setLocationRelativeTo(null);
+        fr.setResizable(false);
         fr.setVisible(true);
 
     }
