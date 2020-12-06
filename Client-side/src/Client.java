@@ -3,17 +3,43 @@ import java.net.*;
 import java.util.*;
 
 public class Client {
+
+    Socket clientSocket;
+    DataInputStream dis;
+    DataOutputStream dos;
+
+    public Client() {
+        try {
+            serverConnect();
+            openIO();
+        } catch (ConnectException cex) {
+            System.out.println("Server offline.");
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
+
+    private void serverConnect() throws IOException {
+        clientSocket = new Socket("localhost", 6789);
+    }
+
+    private void openIO() throws IOException {
+        dis = new DataInputStream(clientSocket.getInputStream());
+        dos = new DataOutputStream(clientSocket.getOutputStream());
+    }
+
+    private void closeIO() throws IOException {
+        dis.close();
+        dos.close();
+    }
+
     public void sendFile(File file) {
         byte buff[] = new byte[(int) file.length()];
         try (
-            Socket clientSocket = new Socket("localhost", 6789);
-
-            OutputStream os = clientSocket.getOutputStream();
-            DataOutputStream dos = new DataOutputStream(os);
-
             FileInputStream fis = new FileInputStream(file);
             BufferedInputStream bis = new BufferedInputStream(fis);
         ) {
+            openIO();
             bis.read(buff, 0, buff.length);
 
             dos.writeUTF(file.getName());
@@ -21,11 +47,10 @@ public class Client {
             dos.write(buff, 0, buff.length);
             dos.flush();
 
-            os.write(buff, 0, buff.length);
-            os.flush();
-            System.out.println("File has been sent.");
-        } catch (IOException exc) {
-            System.out.println(exc);
+            System.out.println("File has been sent to server. (" + file.getName() + ", size: " + file.length() + " bytes).");
+            closeIO();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
         }
     }
 }

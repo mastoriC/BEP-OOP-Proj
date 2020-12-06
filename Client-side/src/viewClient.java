@@ -52,9 +52,10 @@ public class viewClient implements ActionListener {
         cancel.setPreferredSize(new Dimension((int)(fr.getWidth()*0.25), 64));
         cancel.addActionListener(this);
 
-        queueList = new JTextArea("HelloWord.pdf",5,20);
+        queueList = new JTextArea("",5,20);
         queueList.setEditable(false);
         queueList.setSize(500, 500);
+        queueList.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
 
         queueListPanel = new JPanel();
         optionPanel = new JPanel();

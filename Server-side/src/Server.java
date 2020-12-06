@@ -1,41 +1,28 @@
-import java.io.*;
-import java.net.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 public class Server {
-    public static void main(String[] args) {
-        String fileName;
-        long fileSize;
-        int bytesRead;
-        byte buff[] = new byte[6022386];
+    public static void main(String[] args) throws IOException {
+        ServerSocket ss = new ServerSocket(6789);
+        while (true) {
+            Socket s = null;
+            try {
+                s = ss.accept();
+                System.out.println("New Client Connected ("+s+").");
 
-        System.out.println("Server started!");
+                DataInputStream dis = new DataInputStream(s.getInputStream());
+                DataOutputStream dos = new DataOutputStream(s.getOutputStream());
 
-        try (
-            ServerSocket handshakeSocket = new ServerSocket(6789);
-            Socket connectionSocket = handshakeSocket.accept();
-            InputStream is = connectionSocket.getInputStream();
-            DataInputStream dis = new DataInputStream(is);
-
-            FileWriter fw = new FileWriter("./srvFiles/inQueue.dat", true);
-            BufferedWriter bw = new BufferedWriter(fw);
-            PrintWriter pw = new PrintWriter(bw);
-        ) {
-            fileName = dis.readUTF();
-            fileSize = dis.readLong();
-
-            try (FileOutputStream fos = new FileOutputStream("./srvFiles/" + fileName)) {
-                while (fileSize>0 && (bytesRead = dis.read(buff, 0, (int) Math.min(buff.length, fileSize))) != -1) {
-                    fos.write(buff, 0, bytesRead);
-                    fileSize -= bytesRead;
-                }
-            } catch (IOException FOSexc) {
-                throw FOSexc;
+                System.out.println("New thread assigned to this client.");
+                Thread t = new ClientHandler(s, dis, dos);
+                t.start();
+            } catch (IOException ioe) {
+                s.close();
+                ioe.printStackTrace();
             }
-
-            pw.println(fileName); // Append file name into file list.
-
-        } catch (IOException exc) {
-            System.out.println(exc);
         }
     }
 }
