@@ -5,7 +5,7 @@ import java.util.*;
 public class Client {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        File inputFile = new File("/Users/ssw/Desktop/test.dat");
+        File inputFile = new File("/Users/ssw/Desktop/test.docx");
         while (true) {
             String a = sc.nextLine();
             sendFile(inputFile);
