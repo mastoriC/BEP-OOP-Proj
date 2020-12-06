@@ -20,6 +20,10 @@ public class viewClient implements ActionListener {
     JLabel header;
     JLabel nameFile, list;
 
+    // option list
+    JLabel numberCoppies;
+    JTextField numberCoppiesTf;
+
     JFileChooser fc;
     FileNameExtensionFilter extFilter = new FileNameExtensionFilter("PDF File", "pdf");
 
@@ -33,7 +37,7 @@ public class viewClient implements ActionListener {
         //option selection
         JLabel numberOfPage, numberOfPage2;
 
-        fr = new JFrame("BEP: Print for anywhere");
+        fr = new JFrame("BEP: Print from anywhere");
         fr.setLayout(new BorderLayout());
         fr.setSize(800,600);
 
@@ -91,9 +95,14 @@ public class viewClient implements ActionListener {
         /* Option Panel */
         header = new JLabel("Choose your option");
         optionList = new JPanel();
+        numberCoppies = new JLabel("number of Coppies");
+        numberCoppiesTf = new JTextField();
         optionList.setLayout(new GridLayout(3,1));
 
-        optionPanel.setLayout(new GridLayout(3,1));
+        optionList.add(numberCoppies);
+        optionList.add(numberCoppiesTf);
+
+        optionPanel.setLayout(new GridLayout(2,1));
         optionPanel.add(header);
         optionPanel.add(optionList);
 
