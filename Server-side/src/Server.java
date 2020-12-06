@@ -6,7 +6,11 @@ import java.net.Socket;
 
 public class Server {
     public static void main(String[] args) throws IOException {
-        ServerSocket ss = new ServerSocket(6789);
+
+        final int PORT = 6789;
+
+        ServerSocket ss = new ServerSocket(PORT);
+        System.out.println("BEP Server activated.");
         while (true) {
             Socket s = null;
             try {

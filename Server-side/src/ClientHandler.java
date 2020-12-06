@@ -1,16 +1,21 @@
+import org.json.JSONObject;
+
 import java.io.*;
 import java.net.Socket;
+import java.sql.Timestamp;
+import java.util.Date;
 
 public class ClientHandler extends Thread {
-    Socket s;
-    DataInputStream dis;
-    DataOutputStream dos;
+    private Socket s;
+    private DataInputStream dis;
+    private DataOutputStream dos;
 
-    String fileName;
-    long fileSize;
-    int bytesRead;
-    byte buff[] = new byte[6022386];
+    private String fileName;
+    private long fileSize;
+    private int bytesRead;
+    private byte buff[] = new byte[6022386];
 
+    private Database db = new Database();
 
     public ClientHandler(Socket s, DataInputStream dis, DataOutputStream dos) {
         this.s = s;
@@ -18,14 +23,24 @@ public class ClientHandler extends Thread {
         this.dos = dos;
     }
 
+    private void updateClient(File log) {
+        byte logBuff[] = new byte[(int) log.length()];
+        try (
+            FileInputStream fis = new FileInputStream(log);
+            BufferedInputStream bis = new BufferedInputStream(fis);
+        ) {
+            bis.read(buff, 0, logBuff.length);
+            dos.writeLong(buff.length);
+            dos.write(buff, 0, logBuff.length);
+            System.out.println("Update log to user.");
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
+
     public void run() {
         while (true) {
-
-            try (
-                FileWriter fw = new FileWriter("./srvFiles/inQueue.dat", true);
-                BufferedWriter bw = new BufferedWriter(fw);
-                PrintWriter pw = new PrintWriter(bw);
-            ) {
+            try {
                 fileName = dis.readUTF();
                 fileSize = dis.readLong();
 
@@ -36,18 +51,21 @@ public class ClientHandler extends Thread {
                 }
                 fos.close();
 
+                db.save(fileName);
                 System.out.println("File saved! (" + fileName + ", size: " + fileSize + " bytes).");
-                pw.println(fileName); // Append file name into file list.
 
+                updateClient(db.getLog());
                 break;
             } catch (IOException ioe) {
                 ioe.printStackTrace();
             }
 
+            /* Close connection with client. */
             try {
                 this.dis.close();
                 this.dos.close();
                 this.s.close();
+                System.out.println("Finish process, close connection.");
             } catch (IOException ioe) {
                 ioe.printStackTrace();
             }
