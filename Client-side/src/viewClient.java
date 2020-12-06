@@ -160,19 +160,30 @@ public class viewClient implements ActionListener {
               else if (status == 1){
                   // user press no
 
+
               }
 //            System.out.println("test");
         } else if (e.getSource().equals(print)) {
-            if (selectedFile.equals(null)) {
+            try {
+                if (selectedFile.equals(null)) {
 
-            } else {
-                System.out.println("[Send to socket] " + selectedFile);
-                cliSocket.sendFile(selectedFile);
-                pathPreview.setText("No selected file");
-                CalPrice testCal = new CalPrice();
-                testCal.calPrice(NumberOfPages, "color");
-                System.out.println(testCal.getPrice() + " Bath.");
+                } else {
+                    System.out.println("[Send to socket] " + selectedFile);
+                    cliSocket.sendFile(selectedFile);
+                    pathPreview.setText("No selected file");
+                    CalPrice testCal = new CalPrice();
+                    testCal.calPrice(NumberOfPages, "color");
+                    System.out.println(testCal.getPrice() + " Bath.");
+                }
             }
+            catch (NullPointerException n){
+                n.printStackTrace();
+                JOptionPane.showMessageDialog(fr, "Please select file!", "Error", JOptionPane.OK_OPTION);
+//                System.out.println("It's null!!!!!");
+            }
+
+
+
         }
     }
 }
