@@ -92,8 +92,10 @@ public class viewClient implements ActionListener {
             JFileChooser fc = new JFileChooser();
             fc.showOpenDialog(fr);
             // get Selected Files and get name
+            File test = fc.getCurrentDirectory();
             File nameFiles = fc.getSelectedFile();
             System.out.println(fc.getName(nameFiles));
+            System.out.println(test);
 
         }
         else if(e.getSource().equals(cancel)){
