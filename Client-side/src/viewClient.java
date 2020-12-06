@@ -22,6 +22,7 @@ public class viewClient implements ActionListener {
 
     // option list
     JLabel numberCoppies;
+    JTextField numberCoppiesTf;
 
     JFileChooser fc;
     FileNameExtensionFilter extFilter = new FileNameExtensionFilter("PDF File", "pdf");
@@ -29,7 +30,6 @@ public class viewClient implements ActionListener {
     File selectedFile;
     int NumberOfPages;
     Client cliSocket = new Client();
-
 
     //default constructor
     public viewClient(){
@@ -52,10 +52,10 @@ public class viewClient implements ActionListener {
         cancel.setPreferredSize(new Dimension((int)(fr.getWidth()*0.25), 64));
         cancel.addActionListener(this);
 
-        queueList = new JTextArea("HelloWord.pdf",5,20);
-        queueList.setFont(new Font("Angsana New", Font.PLAIN, 12));
+        queueList = new JTextArea("",5,20);
         queueList.setEditable(false);
         queueList.setSize(500, 500);
+        queueList.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
 
         queueListPanel = new JPanel();
         optionPanel = new JPanel();
@@ -97,13 +97,13 @@ public class viewClient implements ActionListener {
         header = new JLabel("Choose your option");
         optionList = new JPanel();
         numberCoppies = new JLabel("number of Coppies");
-        JSpinner sp = new JSpinner();
-        optionList.setLayout(new GridLayout(3,2));
+        numberCoppiesTf = new JTextField();
+        optionList.setLayout(new GridLayout(3,1));
 
         optionList.add(numberCoppies);
-        optionList.add(sp);
+        optionList.add(numberCoppiesTf);
 
-        optionPanel.setLayout(new GridLayout(3,1));
+        optionPanel.setLayout(new GridLayout(2,1));
         optionPanel.add(header);
         optionPanel.add(optionList);
 
@@ -151,6 +151,8 @@ public class viewClient implements ActionListener {
             }
 
         } else if (e.getSource().equals(cancel)) {
+//            JOptionPane pop1 = new JOptionPane();
+//            JOptionPane.showMessageDialog(fr,"Welcome in Roseindia");
               int status = JOptionPane.showConfirmDialog(fr, "Do you want to exit?",  "Select an Option...",JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
               if(status == 0){
                   // uesr press yes
@@ -161,6 +163,7 @@ public class viewClient implements ActionListener {
 
 
               }
+//            System.out.println("test");
         } else if (e.getSource().equals(print)) {
             try {
                 if (selectedFile.equals(null)) {
@@ -177,6 +180,7 @@ public class viewClient implements ActionListener {
             catch (NullPointerException n){
                 n.printStackTrace();
                 JOptionPane.showMessageDialog(fr, "Please select file!", "Error", JOptionPane.OK_OPTION);
+//                System.out.println("It's null!!!!!");
             }
 
 

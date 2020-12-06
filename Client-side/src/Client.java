@@ -2,8 +2,8 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class Client{
-    public void sendFile(File file)  {
+public class Client {
+    public void sendFile(File file) {
         byte buff[] = new byte[(int) file.length()];
         try (
             Socket clientSocket = new Socket("localhost", 6789);
@@ -28,5 +28,4 @@ public class Client{
             System.out.println(exc);
         }
     }
-
 }
