@@ -10,87 +10,91 @@ public class viewClient implements ActionListener {
     JButton refresh, print, cancel, choose;
     JPanel queueListPanel, optionPanel, optionList;
     JPanel southLayout, northLayout;
+    JTextField pathPreview;
     JTextArea queueList;
     JLabel header;
     JLabel nameFile, list;
     JFileChooser fc;
 
+    File selectedFile;
+    Client cliSocket = new Client();
+
     //default constructor
     public viewClient(){
-
 
         //option selection
         JLabel numberOfPage, numberOfPage2;
 
-
         fr = new JFrame("BEP: Print for anywhere");
         fr.setLayout(new BorderLayout());
+        fr.setSize(800,600);
 
         refresh = new JButton("refresh");
-        print = new JButton("Print");
-        cancel = new JButton("Cancel");
 
-        queueList = new JTextArea("HelloWord.pdf",5,15);
+        print = new JButton("Print");
+        print.setPreferredSize(new Dimension((int)(fr.getWidth()*0.7), 64));
+        print.addActionListener(this);
+
+        cancel = new JButton("Cancel");
+        cancel.setPreferredSize(new Dimension((int)(fr.getWidth()*0.25), 64));
+        cancel.addActionListener(this);
+
+        queueList = new JTextArea("HelloWord.pdf",5,20);
         queueList.setEditable(false);
         queueList.setSize(500, 500);
 
-       queueListPanel = new JPanel();
-       optionPanel = new JPanel();
+        queueListPanel = new JPanel();
+        optionPanel = new JPanel();
 
-       southLayout = new JPanel();
-       northLayout = new JPanel();
+        southLayout = new JPanel();
+        northLayout = new JPanel();
 
-       southLayout.add(print);
-       southLayout.add(cancel);
+        southLayout.add(print);
+        southLayout.add(cancel);
 
-       queueListPanel.setLayout(new BorderLayout());
-       queueListPanel.add(refresh, BorderLayout.SOUTH);
-       queueListPanel.add(queueList, BorderLayout.CENTER);
+        queueListPanel.setLayout(new BorderLayout());
+        queueListPanel.add(refresh, BorderLayout.SOUTH);
+        queueListPanel.add(queueList, BorderLayout.CENTER);
+        queueListPanel.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
 
-       northLayout.setLayout(new FlowLayout());
-       nameFile = new JLabel("File to upload");
-       choose = new JButton("Choose");
-       choose.addActionListener(this);
-       northLayout.add(nameFile);
-       northLayout.add(choose);
+        /* File to upload panel */
+        northLayout.setLayout(new FlowLayout());
+        nameFile = new JLabel("File to upload");
+        nameFile.setPreferredSize(new Dimension((int)(fr.getWidth()*0.15), 48));
+        nameFile.setHorizontalAlignment(JLabel.CENTER);
+        nameFile.setVerticalAlignment(JLabel.CENTER);
+        nameFile.setFont(new Font(nameFile.getFont().getFontName(), Font.BOLD, 14));
 
+        pathPreview = new JTextField();
+        pathPreview.setEditable(false);
+        pathPreview.setText("No selected file");
+        pathPreview.setBorder(BorderFactory.createEmptyBorder(0, 16, 0, 16));
+        pathPreview.setPreferredSize(new Dimension((int)(fr.getWidth()*0.7), 48));
 
-       //option panel
+        choose = new JButton("Choose");
+        choose.setPreferredSize(new Dimension((int)(fr.getWidth()*0.1), 48));
+        choose.addActionListener(this);
+
+        northLayout.add(nameFile);
+        northLayout.add(pathPreview);
+        northLayout.add(choose);
+
+        //option panel
         header = new JLabel("Choose your option");
         optionList = new JPanel();
-        optionList.setLayout(new GridLayout(3,2));
-
-
-        numberOfPage = new JLabel( "coppies");
-        numberOfPage2 = new JLabel("เทส");
-        optionList.add(numberOfPage);
-        optionList.add(numberOfPage);
-        optionList.add(numberOfPage);
-        optionList.add(numberOfPage);
-        optionList.add(numberOfPage);
-        optionList.add(numberOfPage2);
-
+        optionList.setLayout(new GridLayout(3,1));
 
         optionPanel.setLayout(new GridLayout(3,1));
         optionPanel.add(header);
         optionPanel.add(optionList);
 
+        fr.add(northLayout, BorderLayout.NORTH);
+        fr.add(queueListPanel, BorderLayout.WEST);
+        fr.add(optionPanel, BorderLayout.CENTER);
+        fr.add(southLayout, BorderLayout.SOUTH);
 
-
-
-
-
-       fr.add(northLayout, BorderLayout.NORTH);
-       fr.add(queueListPanel, BorderLayout.WEST);
-       fr.add(optionPanel, BorderLayout.CENTER);
-       fr.add(southLayout, BorderLayout.SOUTH);
-
-       fr.setLocationRelativeTo(null);
-
-        fr.setSize(800,600);
+        fr.setLocationRelativeTo(null);
         fr.setVisible(true);
-
-
 
     }
 
@@ -100,11 +104,18 @@ public class viewClient implements ActionListener {
         if (e.getSource().equals(choose)){
             JFileChooser fc = new JFileChooser();
             fc.showOpenDialog(fr);
-        }
-        else if(e.getSource().equals(cancel)){
+
+            // get Selected Files and get name
+            selectedFile = fc.getSelectedFile();
+            pathPreview.setText(selectedFile.toString());
+
+        } else if (e.getSource().equals(cancel)) {
 //            JOptionPane pop1 = new JOptionPane();
             JOptionPane.showMessageDialog(fr,"Welcome in Roseindia");
-
+//            System.out.println("test");
+        } else if (e.getSource().equals(print)) {
+            System.out.println("[Send to socket] " + selectedFile);
+            cliSocket.sendFile(selectedFile);
         }
     }
 }
