@@ -91,6 +91,10 @@ public class viewClient implements ActionListener {
         if (e.getSource().equals(choose)){
             JFileChooser fc = new JFileChooser();
             fc.showOpenDialog(fr);
+            // get Selected Files and get name
+            File nameFiles = fc.getSelectedFile();
+            System.out.println(fc.getName(nameFiles));
+
         }
         else if(e.getSource().equals(cancel)){
 //            JOptionPane pop1 = new JOptionPane();

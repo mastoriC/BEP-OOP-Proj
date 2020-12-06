@@ -7,7 +7,7 @@ public class Client {
         Scanner sc = new Scanner(System.in);
         File inputFile = new File("/Users/ssw/Desktop/test.dat");
         //SilverSky testing
-//        File inputFile = new File("/Users/silversky/Desktop/golf.dat");
+//        File inputFile = new File("/Users/silversky/Desktop/");
         while (true) {
             String a = sc.nextLine();
             sendFile(inputFile);
