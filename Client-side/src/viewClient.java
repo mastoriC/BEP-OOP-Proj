@@ -29,6 +29,7 @@ public class viewClient implements ActionListener {
         refresh = new JButton("refresh");
         print = new JButton("Print");
         cancel = new JButton("Cancel");
+        cancel.addActionListener(this);
 
         queueList = new JTextArea("HelloWord.pdf",5,15);
         queueList.setEditable(false);
@@ -58,17 +59,7 @@ public class viewClient implements ActionListener {
        //option panel
         header = new JLabel("Choose your option");
         optionList = new JPanel();
-        optionList.setLayout(new GridLayout(3,2));
-
-
-        numberOfPage = new JLabel( "coppies");
-        numberOfPage2 = new JLabel("เทส");
-        optionList.add(numberOfPage);
-        optionList.add(numberOfPage);
-        optionList.add(numberOfPage);
-        optionList.add(numberOfPage);
-        optionList.add(numberOfPage);
-        optionList.add(numberOfPage2);
+        optionList.setLayout(new GridLayout(3,1));
 
 
         optionPanel.setLayout(new GridLayout(3,1));
@@ -104,6 +95,7 @@ public class viewClient implements ActionListener {
         else if(e.getSource().equals(cancel)){
 //            JOptionPane pop1 = new JOptionPane();
             JOptionPane.showMessageDialog(fr,"Welcome in Roseindia");
+//            System.out.println("test");
 
         }
     }
