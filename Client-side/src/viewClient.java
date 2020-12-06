@@ -35,6 +35,7 @@ public class viewClient implements ActionListener {
         print.setPreferredSize(new Dimension((int)(fr.getWidth()*0.7), 64));
         print.addActionListener(this);
 
+
         cancel = new JButton("Cancel");
         cancel.setPreferredSize(new Dimension((int)(fr.getWidth()*0.25), 64));
         cancel.addActionListener(this);
@@ -79,7 +80,7 @@ public class viewClient implements ActionListener {
         northLayout.add(pathPreview);
         northLayout.add(choose);
 
-        //option panel
+        /* Option Panel */
         header = new JLabel("Choose your option");
         optionList = new JPanel();
         optionList.setLayout(new GridLayout(3,1));
@@ -114,8 +115,13 @@ public class viewClient implements ActionListener {
             JOptionPane.showMessageDialog(fr,"Welcome in Roseindia");
 //            System.out.println("test");
         } else if (e.getSource().equals(print)) {
-            System.out.println("[Send to socket] " + selectedFile);
-            cliSocket.sendFile(selectedFile);
+            if (selectedFile.equals(null)) {
+
+            } else {
+                System.out.println("[Send to socket] " + selectedFile);
+                cliSocket.sendFile(selectedFile);
+                pathPreview.setText("No selected file");
+            }
         }
     }
 }
