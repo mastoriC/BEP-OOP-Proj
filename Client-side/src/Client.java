@@ -3,16 +3,7 @@ import java.net.*;
 import java.util.*;
 
 public class Client {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        File inputFile = new File("/Users/ssw/Desktop/test.docx");
-        while (true) {
-            String a = sc.nextLine();
-            sendFile(inputFile);
-        }
-    }
-
-    public static void sendFile(File file) {
+    public void sendFile(File file) {
         byte buff[] = new byte[(int) file.length()];
         try (
             Socket clientSocket = new Socket("localhost", 6789);
