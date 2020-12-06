@@ -20,6 +20,10 @@ public class viewClient implements ActionListener {
     JLabel header;
     JLabel nameFile, list;
 
+    // option list
+    JLabel numberCoppies;
+    JTextField numberCoppiesTf;
+
     JFileChooser fc;
     FileNameExtensionFilter extFilter = new FileNameExtensionFilter("PDF File", "pdf");
 
@@ -33,7 +37,7 @@ public class viewClient implements ActionListener {
         //option selection
         JLabel numberOfPage, numberOfPage2;
 
-        fr = new JFrame("BEP: Print for anywhere");
+        fr = new JFrame("BEP: Print from anywhere");
         fr.setLayout(new BorderLayout());
         fr.setSize(800,600);
 
@@ -91,9 +95,14 @@ public class viewClient implements ActionListener {
         /* Option Panel */
         header = new JLabel("Choose your option");
         optionList = new JPanel();
+        numberCoppies = new JLabel("number of Coppies");
+        numberCoppiesTf = new JTextField();
         optionList.setLayout(new GridLayout(3,1));
 
-        optionPanel.setLayout(new GridLayout(3,1));
+        optionList.add(numberCoppies);
+        optionList.add(numberCoppiesTf);
+
+        optionPanel.setLayout(new GridLayout(2,1));
         optionPanel.add(header);
         optionPanel.add(optionList);
 
@@ -142,7 +151,9 @@ public class viewClient implements ActionListener {
 
         } else if (e.getSource().equals(cancel)) {
 //            JOptionPane pop1 = new JOptionPane();
-            JOptionPane.showMessageDialog(fr,"Welcome in Roseindia");
+//            JOptionPane.showMessageDialog(fr,"Welcome in Roseindia");
+            JOptionPane.showConfirmDialog(fr, "confrim");
+
 //            System.out.println("test");
         } else if (e.getSource().equals(print)) {
             if (selectedFile.equals(null)) {
@@ -151,6 +162,9 @@ public class viewClient implements ActionListener {
                 System.out.println("[Send to socket] " + selectedFile);
                 cliSocket.sendFile(selectedFile);
                 pathPreview.setText("No selected file");
+                CalPrice testCal = new CalPrice();
+                testCal.calPrice(NumberOfPages, "color");
+                System.out.println(testCal.getPrice() + " Bath.");
             }
         }
     }
