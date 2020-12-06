@@ -142,7 +142,9 @@ public class viewClient implements ActionListener {
 
         } else if (e.getSource().equals(cancel)) {
 //            JOptionPane pop1 = new JOptionPane();
-            JOptionPane.showMessageDialog(fr,"Welcome in Roseindia");
+//            JOptionPane.showMessageDialog(fr,"Welcome in Roseindia");
+            JOptionPane.showConfirmDialog(fr, "confrim");
+
 //            System.out.println("test");
         } else if (e.getSource().equals(print)) {
             if (selectedFile.equals(null)) {
