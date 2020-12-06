@@ -151,17 +151,10 @@ public class viewClient implements ActionListener {
             }
 
         } else if (e.getSource().equals(cancel)) {
-//            JOptionPane pop1 = new JOptionPane();
-//            JOptionPane.showMessageDialog(fr,"Welcome in Roseindia");
               int status = JOptionPane.showConfirmDialog(fr, "Do you want to exit?",  "Select an Option...",JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
               if(status == 0){
                   // uesr press yes
                   System.exit(0);
-              }
-              else if (status == 1){
-                  // user press no
-
-
               }
 //            System.out.println("test");
         } else if (e.getSource().equals(print)) {
