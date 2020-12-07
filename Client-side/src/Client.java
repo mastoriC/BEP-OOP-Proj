@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Client {
 
-    final String HOSTNAME = "localhost";
+    final String HOSTNAME = "192.168.43.239";
     final int PORT = 6789;
 
     Socket clientSocket;
