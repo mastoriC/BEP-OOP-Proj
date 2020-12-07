@@ -225,7 +225,7 @@ public class EarnUI {
     private void updateLogs() {
         // removing old logs
         while (model.getRowCount() > 0) {
-            model.removeRow(model.getRowCount());
+            model.removeRow(model.getRowCount()-1);
         }
         logs.refresh();
 
