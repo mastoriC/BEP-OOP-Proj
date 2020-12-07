@@ -163,7 +163,7 @@ public class viewClient implements ActionListener {
 
                 } else {
                     System.out.println("[Send to socket] " + selectedFile);
-                    cliSocket.sendFile(selectedFile);
+                    cliSocket.sendFile(selectedFile, NumberOfPages);
                     pathPreview.setText("No selected file");
                     CalPrice testCal = new CalPrice();
                     testCal.calPrice(NumberOfPages, "color");
