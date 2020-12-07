@@ -32,7 +32,7 @@ public class EarnUI {
     private JTextField startPage;
     private JLabel to;
     private JTextField endPage;
-    private JSpinner spinner1;
+    private JSpinner copy;
     private JRadioButton blackRadioButton;
     private JRadioButton colorRadioButton;
     private JRadioButton PageSelect;
@@ -57,10 +57,15 @@ public class EarnUI {
         fr = new JFrame("BEP: Print from anywhere");
         pathName.setEditable(false);
 
+        //Page Range
+        startPage.setEditable(false);
+        endPage.setEditable(false);
+
         // button group
         buttonGroupPage = new ButtonGroup();
         buttonGroupPage.add(allRadioButton);
         buttonGroupPage.add(PageSelect);
+
 
         // model table
         DefaultTableModel model = (DefaultTableModel) tableQ.getModel();
@@ -103,7 +108,7 @@ public class EarnUI {
         Cancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource().equals(Cancel)){
-                    int status = JOptionPane.showConfirmDialog(fr, "Do you want to exit?",  "Select an Option...",JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+                    int status = JOptionPane.showConfirmDialog(fr, "Do you want to exit?",  "Select an Option...",JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
                     if(status == 0){
                         // user press yes
                         System.exit(0);
@@ -116,23 +121,32 @@ public class EarnUI {
             public void actionPerformed(ActionEvent e) {
                 try {
                     if (!selectedFile.equals(null)) {
+                        if (startPage.getText() + endPage.getText() == ""){
+                            System.out.println("I'm");
+                        }
+                            else{
+                                try {
+                                    int StartPage = Integer.parseInt(startPage.getText());
+                                    int EndPage = Integer.parseInt(endPage.getText());
+                                    System.out.println(StartPage);
+                                    System.out.println(EndPage);
+                                }
 
-                        try{
-                            int StartPage = Integer.parseInt(startPage.getText());
-                            int EndPage = Integer.parseInt(endPage.getText());
-                            System.out.println(StartPage);
-                            System.out.println(EndPage);
-                        }
-                        catch (Exception x){
-                            System.out.println("It's Not Number!!!!!!!!!");
-                            JOptionPane.showMessageDialog(fr, "Please input number in Pages selection", "Error", JOptionPane.OK_OPTION);
-                        }
+                                catch (NumberFormatException x){
+                                        System.out.println("It's Not Number!!!!!!!!!");
+                                        JOptionPane.showMessageDialog(fr, "Please input number in Pages selection", "Error", JOptionPane.OK_OPTION);
+                                         }
+                            System.out.println("NOOOOOOO");
+                            }
+
+
 
                         String destHostname = IPField.getText();
                         setupConnection(destHostname);
                         transferFile();
                         selectionReset();
-                        calculator.calPrice(NumberOfPages, "color");
+                        int valCoppy = (Integer)copy.getValue();
+                        calculator.calPrice(NumberOfPages, "color",valCoppy);
                         System.out.println(calculator.getPrice() + " Bath.");
                         //test to preview file
                         fc.getFileView();
@@ -153,12 +167,16 @@ public class EarnUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Some Pages");
+                startPage.setEditable(true);
+                endPage.setEditable(true);
 
             }
         });
         allRadioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                startPage.setEditable(false);
+                endPage.setEditable(false);
                 System.out.println("All");
             }
         });
@@ -206,6 +224,13 @@ public class EarnUI {
         SwingUtilities.invokeLater(() -> {
             new EarnUI();
         });
+    }
+
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
+        //Spinner
+        SpinnerModel value = new SpinnerNumberModel(0,0,99,1);
+        copy = new JSpinner(value);
     }
 
 //    private void createUIComponents() {
