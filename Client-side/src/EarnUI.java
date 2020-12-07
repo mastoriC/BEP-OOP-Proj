@@ -109,6 +109,7 @@ public class EarnUI {
 
 //        fr.setContentPane(new EarnUI().panel1);
 
+        fr.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         fr.add(panel1);
         fr.pack();
         fr.setVisible(true);
