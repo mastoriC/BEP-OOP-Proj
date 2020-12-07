@@ -1,4 +1,4 @@
-import org.json.JSONObject;
+import org.json.simple.*;
 
 import java.io.*;
 import java.net.Socket;
