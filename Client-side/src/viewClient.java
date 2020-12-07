@@ -145,6 +145,7 @@ public class viewClient implements ActionListener {
                 try {
                     PDDocument doc = PDDocument.load(selectedFile);
                     NumberOfPages = doc.getNumberOfPages();
+                    doc.close();
                 } catch (IOException exc) {
                     exc.printStackTrace();
                 }
@@ -165,13 +166,12 @@ public class viewClient implements ActionListener {
 
                 } else {
                     System.out.println("[Send to socket] " + selectedFile);
-                    cliSocket.sendFile(selectedFile);
+                    cliSocket.sendFile(selectedFile, NumberOfPages);
                     pathPreview.setText("No selected file");
                     CalPrice testCal = new CalPrice();
                     testCal.calPrice(NumberOfPages, "color");
                     System.out.println(testCal.getPrice() + " Bath.");
-                    //test to preview file
-                    fc.getFileView();
+                    selectedFile = null;
                 }
             }
             catch (NullPointerException n){

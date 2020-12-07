@@ -12,47 +12,62 @@ public class Database {
 
     private JSONObject printObj;
     private String fileName;
+    private int page;
     private final String PATH = "./srvFiles/inQueue.json";
     private JSONArray logArr;
-    private File log = new File(PATH);
+    private File log;
 
-    private void addLog() {
+    private void addLog() throws IOException {
+        read();
+        System.out.println("logArr");
+        System.out.println(logArr);
         printObj = new JSONObject();
-        printObj.put("timestamp", new Timestamp(new Date().getTime()));
+        printObj.put("timestamp", new Timestamp(new Date().getTime()).toString());
         printObj.put("fileName", fileName);
+        printObj.put("page", page);
         logArr.add(printObj);
+        System.out.println(logArr);
     }
 
     private void setFileName(String fileName) {
         this.fileName = fileName;
     }
+    private void setPage(int page) {
+        this.page = page;
+    }
 
-    public void save(String fileName) {
+    public void save(String fileName, int page) throws IOException {
         setFileName(fileName);
-        try (
-            FileWriter fw = new FileWriter(PATH);
-            BufferedWriter bw = new BufferedWriter(fw);
-            PrintWriter pw = new PrintWriter(bw);
-        ) {
-            addLog();
-            pw.write(logArr.toJSONString());
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
+        setPage(page);
+        addLog();
+
+        FileWriter fw = new FileWriter(PATH);
+        BufferedWriter bw = new BufferedWriter(fw);
+        PrintWriter pw = new PrintWriter(bw);
+
+        pw.write(logArr.toJSONString());
+
+        pw.close();
+        bw.close();
+        fw.close();
+
     }
 
     private void read() throws IOException {
-        try (
-            FileReader fr = new FileReader(PATH);
-        ) {
-            JSONParser parser = new JSONParser();
-            Object obj = parser.parse(fr);
-            logArr = (JSONArray) obj;
+        log = new File(PATH);
+        System.out.println("log length");
+        System.out.println(log.length());
 
-        } catch (FileNotFoundException | ParseException fnf) {
-            FileWriter fw = new FileWriter(PATH);
-            JSONArray emptyArr = new JSONArray();
-            fw.write(emptyArr.toJSONString());
+        JSONParser parser = new JSONParser();
+        if (log.length() == 0) {
+            logArr = new JSONArray();
+        } else {
+            try {
+                Object obj = parser.parse(new FileReader(PATH));
+                logArr = (JSONArray) obj;
+            } catch (ParseException pex) {
+                pex.printStackTrace();
+            }
         }
     }
     public File getLog() throws IOException {

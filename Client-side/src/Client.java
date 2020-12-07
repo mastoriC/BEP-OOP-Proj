@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Client {
 
-    final String HOSTNAME = "localhost";
+    final String HOSTNAME = "192.168.43.239";
     final int PORT = 6789;
 
     Socket clientSocket;
@@ -35,7 +35,7 @@ public class Client {
         System.out.println("Updating log.");
 
         try (
-            FileOutputStream fos = new FileOutputStream("./cliFiles/log.dat");
+            FileOutputStream fos = new FileOutputStream("./cliFiles/log.json");
         ) {
             long fileSize = dis.readLong();
             int bytesRead;
@@ -51,7 +51,7 @@ public class Client {
         }
     }
 
-    public void sendFile(File file) {
+    public void sendFile(File file, int page) {
         buff = new byte[(int) file.length()];
         try (
             FileInputStream fis = new FileInputStream(file);
@@ -61,7 +61,10 @@ public class Client {
             openIO();
             bis.read(buff, 0, buff.length);
 
+            System.out.println(page);
+
             dos.writeUTF(file.getName());
+            dos.writeInt(page);
             dos.writeLong(buff.length);
             dos.write(buff, 0, buff.length);
             dos.flush();
