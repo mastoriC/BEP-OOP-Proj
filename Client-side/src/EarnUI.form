@@ -33,6 +33,7 @@
               <columns value="30"/>
               <font/>
               <preferredSize width="336" height="40"/>
+              <text value="Choose file to upload"/>
             </properties>
           </component>
           <component id="f8a89" class="javax.swing.JButton" binding="CHOOSE">
@@ -58,11 +59,11 @@
             <constraints border-constraint="Center"/>
             <properties/>
           </component>
-          <component id="66d7" class="javax.swing.JLabel" binding="Qeue">
+          <component id="66d7" class="javax.swing.JLabel" binding="Queue">
             <constraints border-constraint="North"/>
             <properties>
               <horizontalAlignment value="0"/>
-              <text value="Qeue"/>
+              <text value="Printing Queue"/>
             </properties>
           </component>
         </children>
@@ -294,7 +295,7 @@
                   <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
                 </constraints>
               </vspacer>
-              <component id="14e30" class="javax.swing.JTextField" binding="IPFiels">
+              <component id="14e30" class="javax.swing.JTextField" binding="IPField">
                 <constraints>
                   <grid row="11" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
@@ -302,6 +303,7 @@
                 </constraints>
                 <properties>
                   <background color="-1"/>
+                  <text value=""/>
                 </properties>
               </component>
               <component id="b381d" class="javax.swing.JRadioButton" binding="colorRadioButton" default-binding="true">

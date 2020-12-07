@@ -17,8 +17,6 @@ public class Database {
 
     private void addLog() throws IOException {
         read();
-        System.out.println("logArr");
-        System.out.println(logArr);
         printObj = new JSONObject();
         printObj.put("timestamp", new Timestamp(new Date().getTime()).toString());
         printObj.put("fileName", fileName);
@@ -57,9 +55,6 @@ public class Database {
 
     private void read() throws IOException {
         log = new File(PATH);
-        System.out.println("log length");
-        System.out.println(log.length());
-
         JSONParser parser = new JSONParser();
         if (log.length() == 0) {
             logArr = new JSONArray();

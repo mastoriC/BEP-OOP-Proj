@@ -54,8 +54,14 @@ public class Client {
     public void setHostname(String hostname) {
         this.hostname = hostname;
     }
+    public String getHostname() {
+        return this.hostname;
+    }
+    public int getPORT() {
+        return this.PORT;
+    }
 
-    public void sendFile(File file, int page) {
+    public void sendFile(File file, int page) throws UnknownHostException {
         buff = new byte[(int) file.length()];
         try (
             FileInputStream fis = new FileInputStream(file);
@@ -77,6 +83,8 @@ public class Client {
             updateLog();
 
             close();
+        } catch (UnknownHostException uhex) {
+            throw uhex;
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }

@@ -49,7 +49,6 @@ public class viewClient implements ActionListener {
         print.setPreferredSize(new Dimension((int)(fr.getWidth()*0.7), 64));
         print.addActionListener(this);
 
-
         cancel = new JButton("Cancel");
         cancel.setPreferredSize(new Dimension((int)(fr.getWidth()*0.25), 64));
         cancel.addActionListener(this);
@@ -159,6 +158,7 @@ public class viewClient implements ActionListener {
                 if (selectedFile.equals(null)) {
 
                 } else {
+
                     System.out.println("[Send to socket] " + selectedFile);
                     cliSocket.sendFile(selectedFile, NumberOfPages);
                     pathPreview.setText("No selected file");
