@@ -127,13 +127,6 @@ public class EarnUI {
 
             }
         });
-        refresh.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-
-            }
-        });
 
 
 
@@ -158,5 +151,9 @@ public class EarnUI {
 
         });
 
+    }
+
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
     }
 }
