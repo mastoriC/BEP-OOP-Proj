@@ -32,26 +32,16 @@ public class EarnUI {
     private JRadioButton colorRadioButton;
     private JTextField textField4;
 
-    JFileChooser fc;
-    FileNameExtensionFilter extFilter = new FileNameExtensionFilter("PDF File", "pdf");
+    private JFileChooser fc;
+    FileNameExtensionFilter extFilter = new FileNameExtensionFilter("PDF/DOCX File", "pdf", "docx");
 
-    File selectedFile;
-    int NumberOfPages;
-    Client cliSocket = new Client();
-
-    private String getFileExt() {
-        String fileName = selectedFile.getName();
-        if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
-            return fileName.substring(fileName.lastIndexOf(".")+1);
-        }
-        return "";
-    }
+    private File selectedFile;
+    private int NumberOfPages;
+    private Client cliSocket = new Client();;
 
     public EarnUI() {
         JFrame fr = new JFrame("BEP: Print from anywhere");
         pathName.setEditable(false);
-
-
 
         CHOOSE.addActionListener(new ActionListener() {
             @Override
@@ -61,13 +51,11 @@ public class EarnUI {
                     fc = new JFileChooser();
                     fc.showOpenDialog(CHOOSE.getFocusCycleRootAncestor());
 
-
                     selectedFile = fc.getSelectedFile();
                     pathName.setText(selectedFile.toString());
 
                     // PDF File get number of pages
                     String fileExt = getFileExt();
-
 
                     if (fileExt.equals("pdf")) {
                         try {
@@ -83,13 +71,6 @@ public class EarnUI {
                 }
             }
         });
-
-
-
-
-//        fr.setContentPane(new EarnUI().panel1);
-
-
         Cancel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -123,37 +104,33 @@ public class EarnUI {
                     n.printStackTrace();
                     JOptionPane.showMessageDialog(fr, "Please select file!", "Error", JOptionPane.OK_OPTION);
                 }
-
-
             }
         });
 
-
+//        fr.setContentPane(new EarnUI().panel1);
 
         fr.add(panel1);
         fr.pack();
         fr.setVisible(true);
     }
 
+    private String getFileExt() {
+        String fileName = selectedFile.getName();
+        if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
+            return fileName.substring(fileName.lastIndexOf(".")+1);
+        }
+        return "";
+    }
 
     public static void main(String[] args) {
-        try{
+        try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         }
         catch (Exception e){
             e.printStackTrace();
-
         }
-        SwingUtilities.invokeLater(() ->{
+        SwingUtilities.invokeLater(() -> {
             new EarnUI();
-
-
-
         });
-
-    }
-
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
     }
 }
