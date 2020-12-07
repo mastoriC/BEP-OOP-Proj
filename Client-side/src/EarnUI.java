@@ -1,13 +1,11 @@
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.json.simple.JSONObject;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -47,12 +45,17 @@ public class EarnUI {
     private File selectedFile;
     private int NumberOfPages;
 
+    private DefaultTableModel model;
+    private LogArray logs;
+    private JSONObject tempObj;
+
     private CalPrice calculator;
 
     public EarnUI() {
 
         cliSocket = new Client();
         calculator = new CalPrice();
+        logs = new LogArray();
 
         fr = new JFrame("BEP: Print from anywhere");
         pathName.setEditable(false);
@@ -63,12 +66,15 @@ public class EarnUI {
         buttonGroupPage.add(PageSelect);
 
         // model table
-        DefaultTableModel model = (DefaultTableModel) tableQ.getModel();
+        model = (DefaultTableModel) tableQ.getModel();
         model.addColumn("No");
         model.addColumn("CustomerID");
 
-        for(int i=0;i <= 5; i++) {
-            model.addRow(new Object[0]); model.setValueAt(i+1, i, 0); model.setValueAt("Data Col 1", i, 1);
+        for(int i=0;i < logs.getSize(); i++) {
+            tempObj = (JSONObject)(logs.getArr().get(i));
+            model.addRow(new Object[0]);
+            model.setValueAt(i+1, i, 0);
+            model.setValueAt(tempObj.get("fileName"), i, 1);
         }
 
         CHOOSE.addActionListener(new ActionListener() {
@@ -117,16 +123,11 @@ public class EarnUI {
                 try {
                     if (!selectedFile.equals(null)) {
 
-                        try{
-                            int StartPage = Integer.parseInt(startPage.getText());
-                            int EndPage = Integer.parseInt(endPage.getText());
-                            System.out.println(StartPage);
-                            System.out.println(EndPage);
-                        }
-                        catch (Exception x){
-                            System.out.println("It's Not Number!!!!!!!!!");
-                            JOptionPane.showMessageDialog(fr, "Please input number in Pages selection", "Error", JOptionPane.OK_OPTION);
-                        }
+                        int StartPage = Integer.parseInt(startPage.getText());
+                        int EndPage = Integer.parseInt(endPage.getText());
+                        System.out.println(StartPage);
+                        System.out.println(EndPage);
+
 
                         String destHostname = IPField.getText();
                         setupConnection(destHostname);
@@ -139,21 +140,16 @@ public class EarnUI {
                     }
                 } catch (NullPointerException npex){
                     JOptionPane.showMessageDialog(fr, "Please select a file!", "Error", JOptionPane.OK_OPTION);
+                } catch (Exception x) {
+                    JOptionPane.showMessageDialog(fr, "Please select Page Range.", "Error", JOptionPane.OK_OPTION);
                 }
             }
         });
-
-//        fr.setContentPane(new EarnUI().panel1);
-        fr.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        fr.add(panel1);
-        fr.pack();
-        fr.setVisible(true);
 
         PageSelect.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Some Pages");
-
             }
         });
         allRadioButton.addActionListener(new ActionListener() {
@@ -162,6 +158,13 @@ public class EarnUI {
                 System.out.println("All");
             }
         });
+
+//        fr.setContentPane(new EarnUI().panel1);
+        fr.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        fr.setResizable(false);
+        fr.add(panel1);
+        fr.pack();
+        fr.setVisible(true);
     }
 
     private String getFileExt() {
@@ -183,6 +186,7 @@ public class EarnUI {
         try {
             cliSocket.sendFile(selectedFile, NumberOfPages);
             System.out.println(String.format("%s has been sent.", selectedFile.getName()));
+            updateLogs();
             JOptionPane.showMessageDialog(fr, "File sent!", "Complete", JOptionPane.OK_OPTION);
         } catch (NullPointerException npex){
             JOptionPane.showMessageDialog(fr, "Please select file!", "Error", JOptionPane.OK_OPTION);
@@ -194,6 +198,21 @@ public class EarnUI {
     private void selectionReset() {
         selectedFile = null;
         pathName.setText("Choose file to upload.");
+    }
+
+    private void updateLogs() {
+        // removing old logs
+        while (model.getRowCount() > 0) {
+            model.removeRow(model.getRowCount());
+        }
+        logs.refresh();
+
+        for(int i=0;i < logs.getSize(); i++) {
+            tempObj = (JSONObject)(logs.getArr().get(i));
+            model.addRow(new Object[0]);
+            model.setValueAt(i+1, i, 0);
+            model.setValueAt(tempObj.get("fileName"), i, 1);
+        }
     }
 
     public static void main(String[] args) {

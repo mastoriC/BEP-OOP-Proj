@@ -6,7 +6,7 @@
     </constraints>
     <properties>
       <font name="Arial Rounded MT Bold" size="16" style="1"/>
-      <preferredSize width="800" height="400"/>
+      <preferredSize width="1000" height="400"/>
     </properties>
     <border type="none"/>
     <children>
@@ -57,7 +57,9 @@
         <children>
           <component id="d4c34" class="javax.swing.JTable" binding="tableQ">
             <constraints border-constraint="Center"/>
-            <properties/>
+            <properties>
+              <preferredScrollableViewportSize width="450" height="400"/>
+            </properties>
           </component>
           <component id="66d7" class="javax.swing.JLabel" binding="Queue">
             <constraints border-constraint="North"/>
