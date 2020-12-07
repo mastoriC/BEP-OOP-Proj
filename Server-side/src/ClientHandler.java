@@ -12,6 +12,7 @@ public class ClientHandler extends Thread {
 
     private String fileName;
     private long fileSize;
+    private int page;
     private int bytesRead;
     private byte buff[] = new byte[6022386];
 
@@ -42,6 +43,7 @@ public class ClientHandler extends Thread {
         while (true) {
             try {
                 fileName = dis.readUTF();
+                page = dis.readInt();
                 fileSize = dis.readLong();
 
                 FileOutputStream fos = new FileOutputStream("./srvFiles/" + fileName);
@@ -51,7 +53,7 @@ public class ClientHandler extends Thread {
                 }
                 fos.close();
 
-                db.save(fileName);
+                db.save(fileName, page);
                 System.out.println("File saved! (" + fileName + ", size: " + fileSize + " bytes).");
 
                 updateClient(db.getLog());
