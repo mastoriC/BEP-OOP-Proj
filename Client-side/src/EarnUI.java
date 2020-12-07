@@ -2,6 +2,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -43,7 +44,18 @@ public class EarnUI {
     public EarnUI() {
         JFrame fr = new JFrame("BEP: Print from anywhere");
         pathName.setEditable(false);
-        IPFiels = new JTextField();
+
+        DefaultTableModel model = (DefaultTableModel) tableQ.getModel();
+        model.addColumn("No");
+        model.addColumn("CustomerID");
+
+        for(int i=0;i <= 5; i++) {
+            model.addRow(new Object[0]); model.setValueAt(i+1, i, 0); model.setValueAt("Data Col 1", i, 1);
+        }
+
+
+
+
 
 
         CHOOSE.addActionListener(new ActionListener() {
@@ -117,6 +129,7 @@ public class EarnUI {
 
         fr.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         fr.add(panel1);
+
         fr.pack();
         fr.setVisible(true);
     }
@@ -142,4 +155,12 @@ public class EarnUI {
     }
 
 
+//    private void createUIComponents() {
+//        // TODO: place custom component creation code here
+//        String data[][]={ {"01","Amit"},
+//                {"02","Jai"},
+//                {"03","Sachin"}};
+//        String column[]={"ID","NAME"};
+//        tableQ = new JTable(data,column);
+//    }
 }

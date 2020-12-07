@@ -98,6 +98,9 @@ public class viewClient implements ActionListener {
         /* Option Panel */
 
         optionPanel.setLayout(new FlowLayout());
+        TableX = new JTable();
+        TableX.setBounds(10,10,100,100);
+        optionPanel.add(TableX);
 
         fr.add(northLayout, BorderLayout.NORTH);
         fr.add(queueListPanel, BorderLayout.WEST);
