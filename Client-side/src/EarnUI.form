@@ -23,7 +23,7 @@
               <text value="Files to upload"/>
             </properties>
           </component>
-          <component id="eaab8" class="javax.swing.JTextField" binding="partName">
+          <component id="eaab8" class="javax.swing.JTextField" binding="pathName">
             <constraints/>
             <properties>
               <columns value="30"/>
@@ -50,7 +50,7 @@
           <component id="a4532" class="javax.swing.JButton" binding="refresh">
             <constraints border-constraint="South"/>
             <properties>
-              <text value="refresh"/>
+              <text value="Refresh"/>
             </properties>
           </component>
           <component id="325cb" class="javax.swing.JTable" binding="table1" default-binding="true">
