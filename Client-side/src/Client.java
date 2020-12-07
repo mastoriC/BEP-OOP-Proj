@@ -4,17 +4,17 @@ import java.util.*;
 
 public class Client {
 
-    final String HOSTNAME = "localhost";
-    final int PORT = 6789;
+    private String hostname;
+    private final int PORT = 6789;
 
-    Socket clientSocket;
+    private Socket clientSocket;
     DataInputStream dis;
     DataOutputStream dos;
 
     byte buff[];
 
     private void serverConnect() throws IOException {
-        clientSocket = new Socket(HOSTNAME, PORT);
+        clientSocket = new Socket(hostname, PORT);
         System.out.println("Successfully connect to server.");
     }
 
@@ -49,6 +49,10 @@ public class Client {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
+    }
+
+    public void setHostname(String hostname) {
+        this.hostname = hostname;
     }
 
     public void sendFile(File file, int page) {
