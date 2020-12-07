@@ -47,12 +47,6 @@
         </properties>
         <border type="none"/>
         <children>
-          <component id="a4532" class="javax.swing.JButton" binding="refresh">
-            <constraints border-constraint="South"/>
-            <properties>
-              <text value="Refresh"/>
-            </properties>
-          </component>
           <component id="325cb" class="javax.swing.JTable" binding="table1" default-binding="true">
             <constraints border-constraint="Center"/>
             <properties>

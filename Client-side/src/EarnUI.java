@@ -123,7 +123,6 @@ public class EarnUI {
                 catch (NullPointerException n){
                     n.printStackTrace();
                     JOptionPane.showMessageDialog(fr, "Please select file!", "Error", JOptionPane.OK_OPTION);
-//                System.out.println("It's null!!!!!");
                 }
 
 
@@ -132,6 +131,7 @@ public class EarnUI {
         refresh.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
 
             }
         });
