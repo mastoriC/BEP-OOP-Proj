@@ -58,7 +58,7 @@ public class EarnUI {
             public void actionPerformed(ActionEvent e) {
                 //Choose files
                 if (e.getSource().equals(CHOOSE)){
-                    JFileChooser fc = new JFileChooser();
+                    fc = new JFileChooser();
                     fc.showOpenDialog(CHOOSE.getFocusCycleRootAncestor());
 
 
@@ -110,7 +110,7 @@ public class EarnUI {
 
                     } else {
                         System.out.println("[Send to socket] " + selectedFile);
-                        cliSocket.sendFile(selectedFile);
+                        cliSocket.sendFile(selectedFile, NumberOfPages);
                         pathName.setText("No selected file");
                         CalPrice testCal = new CalPrice();
                         testCal.calPrice(NumberOfPages, "color");
