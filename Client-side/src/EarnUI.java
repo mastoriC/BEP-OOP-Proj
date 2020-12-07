@@ -124,6 +124,7 @@ public class EarnUI {
                         }
                         catch (Exception x){
                             System.out.println("It's Not Number!!!!!!!!!");
+                            JOptionPane.showMessageDialog(fr, "Please input number in Pages selection", "Error", JOptionPane.OK_OPTION);
                         }
 
 
