@@ -45,6 +45,8 @@ public class EarnUI {
         JFrame fr = new JFrame("BEP: Print from anywhere");
         pathName.setEditable(false);
 
+
+        // model table
         DefaultTableModel model = (DefaultTableModel) tableQ.getModel();
         model.addColumn("No");
         model.addColumn("CustomerID");
