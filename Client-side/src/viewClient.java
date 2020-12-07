@@ -3,6 +3,7 @@ import org.apache.commons.logging.LogFactory;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -139,6 +140,7 @@ public class viewClient implements ActionListener {
             // PDF File get number of pages
             String fileExt = getFileExt();
 
+
             if (fileExt.equals("pdf")) {
                 try {
                     PDDocument doc = PDDocument.load(selectedFile);
@@ -168,6 +170,8 @@ public class viewClient implements ActionListener {
                     CalPrice testCal = new CalPrice();
                     testCal.calPrice(NumberOfPages, "color");
                     System.out.println(testCal.getPrice() + " Bath.");
+                    //test to preview file
+                    fc.getFileView();
                 }
             }
             catch (NullPointerException n){
