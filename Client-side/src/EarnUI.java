@@ -1,8 +1,6 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class GolfUI {
+public class EarnUI {
     private JPanel panel1;
     private JPanel northLayout;
     private JLabel header;
@@ -27,19 +25,15 @@ public class GolfUI {
     private JRadioButton colorRadioButton;
     private JTextField textField4;
 
-    public GolfUI() {
+    public EarnUI() {
 
     }
 
     public static void main(String[] args) {
         JFrame fr = new JFrame();
-        fr.setContentPane(new GolfUI().panel1);
+        fr.setContentPane(new EarnUI().panel1);
 
         fr.pack();
         fr.setVisible(true);
-    }
-
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
     }
 }
