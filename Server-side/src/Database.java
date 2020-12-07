@@ -11,7 +11,7 @@ import java.util.Date;
 public class Database {
 
     private JSONObject printObj;
-    private String fileName;
+    private String fileName, rand;
     private int page;
     private final String PATH = "./srvFiles/inQueue.json";
     private JSONArray logArr;
@@ -24,6 +24,7 @@ public class Database {
         printObj = new JSONObject();
         printObj.put("timestamp", new Timestamp(new Date().getTime()).toString());
         printObj.put("fileName", fileName);
+        printObj.put("rand", rand);
         printObj.put("page", page);
         logArr.add(printObj);
         System.out.println(logArr);
@@ -32,12 +33,16 @@ public class Database {
     private void setFileName(String fileName) {
         this.fileName = fileName;
     }
+    private void setRand(String rand) {
+        this.rand = rand;
+    }
     private void setPage(int page) {
         this.page = page;
     }
 
-    public void save(String fileName, int page) throws IOException {
+    public void save(String fileName, int page, String rand) throws IOException {
         setFileName(fileName);
+        setRand(rand);
         setPage(page);
         addLog();
 
@@ -50,7 +55,6 @@ public class Database {
         pw.close();
         bw.close();
         fw.close();
-
     }
 
     private void read() throws IOException {

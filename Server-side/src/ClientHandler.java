@@ -10,18 +10,27 @@ public class ClientHandler extends Thread {
     private DataInputStream dis;
     private DataOutputStream dos;
 
+    private Database db;
+    private Randomizer randomizer;
+
     private String fileName;
     private long fileSize;
-    private int page;
-    private int bytesRead;
-    private byte buff[] = new byte[6022386];
+    private int page, bytesRead;
+    private byte buff[];
 
-    private Database db = new Database();
+    private final String DIR = "./srvFiles/";
+    private String randedStr;
 
     public ClientHandler(Socket s, DataInputStream dis, DataOutputStream dos) {
         this.s = s;
         this.dis = dis;
         this.dos = dos;
+
+        db = new Database();
+        randomizer = new Randomizer();
+
+        buff = new byte[6022386];
+        randedStr = randomizer.randStr();
     }
 
     private void updateClient(File log) {
@@ -39,6 +48,16 @@ public class ClientHandler extends Thread {
         }
     }
 
+    private void createFile() throws IOException {
+        String fileSaveName = DIR+randedStr+"_"+fileName;
+        FileOutputStream fos = new FileOutputStream(fileSaveName);
+        while (fileSize>0 && (bytesRead = dis.read(buff, 0, (int) Math.min(buff.length, fileSize))) != -1) {
+            fos.write(buff, 0, bytesRead);
+            fileSize -= bytesRead;
+        }
+        fos.close();
+    }
+
     public void run() {
         while (true) {
             try {
@@ -46,14 +65,9 @@ public class ClientHandler extends Thread {
                 page = dis.readInt();
                 fileSize = dis.readLong();
 
-                FileOutputStream fos = new FileOutputStream("./srvFiles/" + fileName);
-                while (fileSize>0 && (bytesRead = dis.read(buff, 0, (int) Math.min(buff.length, fileSize))) != -1) {
-                    fos.write(buff, 0, bytesRead);
-                    fileSize -= bytesRead;
-                }
-                fos.close();
+                createFile(); // copy file into server's directory.
 
-                db.save(fileName, page);
+                db.save(fileName, page, randedStr);
                 System.out.println("File saved! (" + fileName + ", size: " + fileSize + " bytes).");
 
                 updateClient(db.getLog());
