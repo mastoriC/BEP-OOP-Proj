@@ -3,8 +3,11 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -33,6 +36,8 @@ public class EarnUI {
     private JRadioButton colorRadioButton;
     private JTextField IPFiels;
     private JLabel Qeue;
+    private JRadioButton PageSelect;
+    private ButtonGroup buttonGroupPage;
 
     private JFileChooser fc;
     FileNameExtensionFilter extFilter = new FileNameExtensionFilter("PDF/DOCX File", "pdf", "docx");
@@ -44,6 +49,10 @@ public class EarnUI {
     public EarnUI() {
         JFrame fr = new JFrame("BEP: Print from anywhere");
         pathName.setEditable(false);
+        // button group
+        buttonGroupPage = new ButtonGroup();
+        buttonGroupPage.add(allRadioButton);
+        buttonGroupPage.add(PageSelect);
 
 
         // model table
@@ -54,7 +63,6 @@ public class EarnUI {
         for(int i=0;i <= 5; i++) {
             model.addRow(new Object[0]); model.setValueAt(i+1, i, 0); model.setValueAt("Data Col 1", i, 1);
         }
-
 
 
 
@@ -134,6 +142,18 @@ public class EarnUI {
 
         fr.pack();
         fr.setVisible(true);
+        PageSelect.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Some Pages");
+            }
+        });
+        allRadioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("All");
+            }
+        });
     }
 
     private String getFileExt() {
@@ -155,6 +175,7 @@ public class EarnUI {
             new EarnUI();
         });
     }
+
 
 
 //    private void createUIComponents() {
