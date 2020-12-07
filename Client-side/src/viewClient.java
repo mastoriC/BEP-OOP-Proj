@@ -20,6 +20,7 @@ public class viewClient implements ActionListener {
     JTextArea queueList;
     JLabel header;
     JLabel nameFile, list;
+    JTable TableX;
 
     // option list
     JLabel numberCoppies;
@@ -95,18 +96,8 @@ public class viewClient implements ActionListener {
         northLayout.add(choose);
 
         /* Option Panel */
-        header = new JLabel("Choose your option");
-        optionList = new JPanel();
-        numberCoppies = new JLabel("number of Coppies");
-        numberCoppiesTf = new JTextField();
-        optionList.setLayout(new GridLayout(3,1));
 
-        optionList.add(numberCoppies);
-        optionList.add(numberCoppiesTf);
-
-        optionPanel.setLayout(new GridLayout(2,1));
-        optionPanel.add(header);
-        optionPanel.add(optionList);
+        optionPanel.setLayout(new FlowLayout());
 
         fr.add(northLayout, BorderLayout.NORTH);
         fr.add(queueListPanel, BorderLayout.WEST);

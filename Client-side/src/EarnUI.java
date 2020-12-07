@@ -14,7 +14,7 @@ public class EarnUI {
     private JLabel header;
     private JTextField pathName;
     private JPanel westLayout;
-    private JTable table1;
+    private JTable tableQ;
     private JButton refresh;
     private JButton Cancel;
     private JButton print;
@@ -30,7 +30,8 @@ public class EarnUI {
     private JSpinner spinner1;
     private JRadioButton blackRadioButton;
     private JRadioButton colorRadioButton;
-    private JTextField textField4;
+    private JTextField IPFiels;
+    private JLabel Qeue;
 
     private JFileChooser fc;
     FileNameExtensionFilter extFilter = new FileNameExtensionFilter("PDF/DOCX File", "pdf", "docx");
@@ -42,6 +43,8 @@ public class EarnUI {
     public EarnUI() {
         JFrame fr = new JFrame("BEP: Print from anywhere");
         pathName.setEditable(false);
+        IPFiels = new JTextField();
+
 
         CHOOSE.addActionListener(new ActionListener() {
             @Override
@@ -90,7 +93,10 @@ public class EarnUI {
                     if (selectedFile.equals(null)) {
 
                     } else {
+
+
                         System.out.println("[Send to socket] " + selectedFile);
+                        String ipDes = IPFiels.getText();
                         cliSocket.sendFile(selectedFile, NumberOfPages);
                         pathName.setText("No selected file");
                         CalPrice testCal = new CalPrice();
@@ -134,4 +140,6 @@ public class EarnUI {
             new EarnUI();
         });
     }
+
+
 }
