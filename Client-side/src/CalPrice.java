@@ -3,12 +3,12 @@ public class CalPrice {
     private double priceColor=1.75, priceBlack=0.75;
 
 
-    public double calPrice(int numberOfpages, String options){
+    public double calPrice(int numberOfpages, String options, int coppy){
         if (options == "color"){
-            price = numberOfpages * priceColor;
+            price = (numberOfpages * priceColor) * coppy;
         }
         else if (options == "black"){
-            price = numberOfpages * priceBlack;
+            price = (numberOfpages * priceBlack) * coppy;
         }
         return price;
     }
