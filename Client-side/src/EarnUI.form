@@ -47,10 +47,10 @@
         </properties>
         <border type="none"/>
         <children>
-          <component id="a4532" class="javax.swing.JButton" binding="button3" default-binding="true">
+          <component id="a4532" class="javax.swing.JButton" binding="refresh">
             <constraints border-constraint="South"/>
             <properties>
-              <text value="Button"/>
+              <text value="refresh"/>
             </properties>
           </component>
           <component id="325cb" class="javax.swing.JTable" binding="table1" default-binding="true">

@@ -7,7 +7,7 @@ public class EarnUI {
     private JTextField partName;
     private JPanel westLayout;
     private JTable table1;
-    private JButton button3;
+    private JButton refresh;
     private JButton Cancel;
     private JButton print;
     private JButton CHOOSE;
