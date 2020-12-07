@@ -24,7 +24,6 @@ public class EarnUI {
     private JPanel optionHead;
     private JPanel all;
     private JRadioButton allRadioButton;
-    private JRadioButton pageRadioButton;
     private JTextField textField2;
     private JLabel to;
     private JTextField textField3;
