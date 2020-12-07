@@ -1,5 +1,3 @@
-
-
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -76,6 +74,5 @@ public class Database {
     }
     public File getLog() throws IOException {
         return log;
-
     }
 }
