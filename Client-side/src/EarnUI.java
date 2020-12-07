@@ -28,9 +28,9 @@ public class EarnUI {
     private JPanel optionHead;
     private JPanel all;
     private JRadioButton allRadioButton;
-    private JTextField textField2;
+    private JTextField startPage;
     private JLabel to;
-    private JTextField textField3;
+    private JTextField endPage;
     private JSpinner spinner1;
     private JRadioButton blackRadioButton;
     private JRadioButton colorRadioButton;
@@ -115,6 +115,16 @@ public class EarnUI {
                     if (selectedFile.equals(null)) {
 
                     } else {
+                        //catch conver Pages number to INT
+                        try{
+                            int StartPage = Integer.parseInt(startPage.getText());
+                            int EndPage = Integer.parseInt(endPage.getText());
+                            System.out.println(StartPage);
+                            System.out.println(EndPage);
+                        }
+                        catch (Exception x){
+                            System.out.println("It's Not Number!!!!!!!!!");
+                        }
 
 
                         System.out.println("[Send to socket] " + selectedFile);
@@ -146,6 +156,7 @@ public class EarnUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Some Pages");
+
             }
         });
         allRadioButton.addActionListener(new ActionListener() {
