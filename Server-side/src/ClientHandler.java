@@ -1,9 +1,5 @@
-import org.json.simple.*;
-
 import java.io.*;
 import java.net.Socket;
-import java.sql.Timestamp;
-import java.util.Date;
 
 public class ClientHandler extends Thread {
     private Socket s;
@@ -49,7 +45,7 @@ public class ClientHandler extends Thread {
     }
 
     private void createFile() throws IOException {
-        String fileSaveName = DIR+randedStr+"_"+fileName;
+        String fileSaveName = DIR + randedStr + "_" + fileName;
         FileOutputStream fos = new FileOutputStream(fileSaveName);
         while (fileSize>0 && (bytesRead = dis.read(buff, 0, (int) Math.min(buff.length, fileSize))) != -1) {
             fos.write(buff, 0, bytesRead);
@@ -70,7 +66,7 @@ public class ClientHandler extends Thread {
                 db.save(fileName, page, randedStr);
                 System.out.println("File saved! (" + fileName + ", size: " + fileSize + " bytes).");
 
-                updateClient(db.getLog());
+                updateClient(db.getLog()); // Update new log to client.
                 break;
             } catch (IOException ioe) {
                 ioe.printStackTrace();
