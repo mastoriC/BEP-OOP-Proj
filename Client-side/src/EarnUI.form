@@ -23,7 +23,7 @@
               <text value="Files to upload"/>
             </properties>
           </component>
-          <component id="eaab8" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+          <component id="eaab8" class="javax.swing.JTextField" binding="partName">
             <constraints/>
             <properties>
               <columns value="30"/>
@@ -70,16 +70,20 @@
         </properties>
         <border type="none"/>
         <children>
-          <component id="fc777" class="javax.swing.JButton" binding="button1" default-binding="true">
+          <component id="fc777" class="javax.swing.JButton" binding="Cancel">
             <constraints border-constraint="East"/>
             <properties>
-              <text value="Button"/>
+              <label value="Cancel"/>
+              <text value="Cancel"/>
             </properties>
           </component>
-          <component id="b2450" class="javax.swing.JButton" binding="button2" default-binding="true">
+          <component id="b2450" class="javax.swing.JButton" binding="print">
             <constraints border-constraint="Center"/>
             <properties>
-              <text value="Button"/>
+              <background color="-13982222"/>
+              <contentAreaFilled value="true"/>
+              <label value="Print"/>
+              <text value="Print"/>
             </properties>
           </component>
         </children>

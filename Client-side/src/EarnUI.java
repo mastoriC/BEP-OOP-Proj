@@ -4,12 +4,12 @@ public class EarnUI {
     private JPanel panel1;
     private JPanel northLayout;
     private JLabel header;
-    private JTextField textField1;
+    private JTextField partName;
     private JPanel westLayout;
     private JTable table1;
     private JButton button3;
-    private JButton button1;
-    private JButton button2;
+    private JButton Cancel;
+    private JButton print;
     private JButton CHOOSE;
     private JPanel SouthLayout;
     private JPanel optionLayout;
@@ -26,14 +26,24 @@ public class EarnUI {
     private JTextField textField4;
 
     public EarnUI() {
+        partName.setEditable(false);
 
     }
 
     public static void main(String[] args) {
-        JFrame fr = new JFrame();
-        fr.setContentPane(new EarnUI().panel1);
+        try{
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        }
+        catch (Exception e){
+            e.printStackTrace();
 
-        fr.pack();
-        fr.setVisible(true);
+        }
+        SwingUtilities.invokeLater(() ->{
+            JFrame fr = new JFrame("BEP: Print from anywhere");
+            fr.setContentPane(new EarnUI().panel1);
+            fr.pack();
+            fr.setVisible(true);
+        });
+
     }
 }
