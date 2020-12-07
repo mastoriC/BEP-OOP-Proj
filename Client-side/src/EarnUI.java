@@ -110,13 +110,13 @@ public class EarnUI {
 
                     } else {
                         System.out.println("[Send to socket] " + selectedFile);
-                        cliSocket.sendFile(selectedFile);
+                        cliSocket.sendFile(selectedFile, NumberOfPages);
                         pathName.setText("No selected file");
                         CalPrice testCal = new CalPrice();
                         testCal.calPrice(NumberOfPages, "color");
                         System.out.println(testCal.getPrice() + " Bath.");
-                        //test to preview file
-                        fc.getFileView();
+                        selectedFile = null;
+                        System.out.println("Clean select File!!");
                     }
                 }
                 catch (NullPointerException n){
@@ -127,15 +127,6 @@ public class EarnUI {
 
             }
         });
-        refresh.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-
-            }
-        });
-
-
 
         fr.add(panel1);
         fr.pack();
