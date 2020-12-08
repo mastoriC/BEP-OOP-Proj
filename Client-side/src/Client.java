@@ -61,7 +61,7 @@ public class Client {
         return this.PORT;
     }
 
-    public void sendFile(File file, int page, int copy, double price) throws UnknownHostException {
+    public void sendFile(File file, int page, int copy, double price) throws ConnectException, UnknownHostException {
         buff = new byte[(int) file.length()];
         try (
             FileInputStream fis = new FileInputStream(file);
@@ -87,6 +87,8 @@ public class Client {
             close();
         } catch (UnknownHostException uhex) {
             throw uhex;
+        } catch (ConnectException conex) {
+            throw conex;
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }

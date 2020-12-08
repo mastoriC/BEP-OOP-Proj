@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.UnknownHostException;
 
 public class EarnUI {
@@ -138,43 +139,20 @@ public class EarnUI {
         print.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    if (!selectedFile.equals(null)) {
+                    if (checkValidate()) {
+                        valCopy = (Integer) copy.getValue(); // Get number of copy.
+                        calculator.calPrice(NumberOfPages, colorType, valCopy);
 
-                        // If page range is 'page' check if input number is number.
-                        if (PageSelect.isSelected()) {
-                            try {
-                                StartPage = Integer.parseInt(startPage.getText());
-                                EndPage = Integer.parseInt(endPage.getText());
-                                System.out.println(StartPage);
-                                System.out.println(EndPage);
-                            } catch (NumberFormatException nfex) {
-                                JOptionPane.showMessageDialog(fr, "Please input number in Pages selection", "Error", JOptionPane.OK_OPTION);
-                            }
-                        }
+                        String destHostname = IPField.getText();
+                        setupConnection(destHostname);
+                        transferFile();
+                        selectionReset();
 
-                        valCopy = (Integer)copy.getValue(); // Get number of copy.
-
-                        // If page range is 'page' check validation first.
-                        if ((PageSelect.isSelected() && pageRangeValidation()) || AllSelect.isSelected()) {
-
-                            // Calculate price of work.
-                            calculator.calPrice(NumberOfPages, colorType, valCopy);
-
-                            String destHostname = IPField.getText();
-                            setupConnection(destHostname);
-                            transferFile();
-                            selectionReset();
-
-                            System.out.println(colorType);
-                            System.out.println(calculator.getPrice() + " Bath.");
-                            //test to preview file
-                            fc.getFileView();
-                        }
+                        System.out.println(colorType);
+                        System.out.println(calculator.getPrice() + " Bath.");
+                        //test to preview file
+                        fc.getFileView();
                     }
-                } catch (NullPointerException npex){
-                    JOptionPane.showMessageDialog(fr, "Please select a file!", "Error", JOptionPane.OK_OPTION);
-                }
             }
         });
 
@@ -211,7 +189,6 @@ public class EarnUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 colorType = "color";
-
             }
         });
 
@@ -232,18 +209,56 @@ public class EarnUI {
     }
 
     private boolean pageRangeValidation() {
-        if (EndPage - StartPage < 0){
-            JOptionPane.showMessageDialog(fr, "Last page cannot less than start page. Please try again.", "Error", JOptionPane.OK_OPTION);
+        if (PageSelect.isSelected()) {
+            try {
+                // Check if input number is number.
+                StartPage = Integer.parseInt(startPage.getText());
+                EndPage = Integer.parseInt(endPage.getText());
+
+                if (EndPage - StartPage < 0) {
+                    JOptionPane.showMessageDialog(fr, "Last page cannot less than start page. Please try again.", "Error", JOptionPane.OK_OPTION);
+                } else {
+                    if (EndPage - StartPage > NumberOfPages) {
+                        JOptionPane.showMessageDialog(fr, "Out of length Page", "Error", JOptionPane.OK_OPTION);
+                        startPage.setText("");
+                        endPage.setText("");
+                    } else {
+                        NumberOfPages = EndPage - StartPage + 1;
+                        return true;
+                    }
+                }
+
+            } catch (NumberFormatException nfex) {
+                JOptionPane.showMessageDialog(fr, "Please input number in Pages selection", "Error", JOptionPane.OK_OPTION);
+            }
+        } else if (AllSelect.isSelected()) {
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(fr, "Please select page range. (All/Page)", "Error", JOptionPane.OK_OPTION);
         }
-        else{
-            if (EndPage - StartPage > NumberOfPages){
-                JOptionPane.showMessageDialog(fr, "Out of length Page", "Error", JOptionPane.OK_OPTION);
-                startPage.setText("");
-                endPage.setText("");
-            } else{
-                NumberOfPages = EndPage - StartPage + 1;
+        return false;
+    }
+
+    private boolean colorValidation() {
+        if (!colorType.equals("")) {
+            return true;
+        }
+        JOptionPane.showMessageDialog(fr, "Please select color mode.", "Error", JOptionPane.OK_OPTION);
+        return false;
+    }
+
+    private boolean checkValidate() {
+        try {
+            /*
+                1) Exception caught if no file has been selected.
+                2) Check page range validation.
+                3) Check color method selection.
+            */
+            if (!selectedFile.equals(null) && pageRangeValidation() && colorValidation()) {
                 return true;
             }
+        } catch (NullPointerException npex) {
+            JOptionPane.showMessageDialog(fr, "Please select a file!", "Error", JOptionPane.OK_OPTION);
         }
         return false;
     }
@@ -261,10 +276,12 @@ public class EarnUI {
             System.out.println(String.format("%s has been sent.", selectedFile.getName()));
             updateLogs();
             JOptionPane.showMessageDialog(fr, "File sent!", "Complete", JOptionPane.OK_OPTION);
-        } catch (NullPointerException npex){
+        } catch (NullPointerException npex) {
             JOptionPane.showMessageDialog(fr, "Please select file!", "Error", JOptionPane.OK_OPTION);
-        } catch (UnknownHostException uhex) {
+        } catch (ConnectException conex) {
             JOptionPane.showMessageDialog(fr, "No response from server.", "Error", JOptionPane.OK_OPTION);
+        } catch (UnknownHostException uhex) {
+            JOptionPane.showMessageDialog(fr, "Unknow host. Please check Destination IP.", "Error", JOptionPane.OK_OPTION);
         }
     }
 
