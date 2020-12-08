@@ -41,6 +41,7 @@ public class EarnUI {
     private JTextField IPField;
     private JLabel Queue;
     String colorType = "";
+    String printMode = "";
 
     private JFileChooser fc;
     FileNameExtensionFilter extFilter;
@@ -177,6 +178,8 @@ public class EarnUI {
                 System.out.println("Some Pages");
                 startPage.setEditable(true);
                 endPage.setEditable(true);
+                printMode = "select";
+
 
             }
         });
@@ -186,6 +189,7 @@ public class EarnUI {
                 startPage.setEditable(false);
                 endPage.setEditable(false);
                 System.out.println("All");
+                printMode = "all";
             }
         });
 
