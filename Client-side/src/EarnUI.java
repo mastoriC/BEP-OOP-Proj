@@ -4,11 +4,8 @@ import org.json.simple.JSONObject;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -29,7 +26,7 @@ public class EarnUI {
     private JPanel optionLayout;
     private JPanel optionHead;
     private JPanel all;
-    private JRadioButton allRadioButton;
+    private JRadioButton AllSelect;
     private JTextField startPage;
     private JLabel to;
     private JTextField endPage;
@@ -57,6 +54,7 @@ public class EarnUI {
     private JSONObject tempObj;
 
     private CalPrice calculator;
+    private int valCopy;
 
     public EarnUI() {
 
@@ -73,26 +71,29 @@ public class EarnUI {
 
         // button group page selection
         buttonGroupPage = new ButtonGroup();
-        buttonGroupPage.add(allRadioButton);
+        buttonGroupPage.add(AllSelect);
         buttonGroupPage.add(PageSelect);
 
         // model table
         model = (DefaultTableModel) tableQ.getModel();
-        model.addColumn("No");
-        model.addColumn("CustomerID");
-
-        // button group black and color
-        buttonGroupColor = new ButtonGroup();
-        buttonGroupColor.add(blackRadioButton);
-        buttonGroupColor.add(colorRadioButton);
-
+        model.addColumn("no");
+        model.addColumn("fileName");
+        model.addColumn("copy");
+        model.addColumn("price");
 
         for(int i=0;i < logs.getSize(); i++) {
             tempObj = (JSONObject)(logs.getArr().get(i));
             model.addRow(new Object[0]);
             model.setValueAt(i+1, i, 0);
             model.setValueAt(tempObj.get("fileName"), i, 1);
+            model.setValueAt(tempObj.get("copy") + " cp", i, 2);
+            model.setValueAt(tempObj.get("price") + " thb", i, 3);
         }
+
+        // button group black and color
+        buttonGroupColor = new ButtonGroup();
+        buttonGroupColor.add(blackRadioButton);
+        buttonGroupColor.add(colorRadioButton);
 
         CHOOSE.addActionListener(new ActionListener() {
             @Override
@@ -139,45 +140,37 @@ public class EarnUI {
             public void actionPerformed(ActionEvent e) {
                 try {
                     if (!selectedFile.equals(null)) {
-                        if (startPage.getText() + endPage.getText() != ""){
+
+                        // If page range is 'page' check if input number is number.
+                        if (PageSelect.isSelected()) {
                             try {
                                 StartPage = Integer.parseInt(startPage.getText());
                                 EndPage = Integer.parseInt(endPage.getText());
                                 System.out.println(StartPage);
                                 System.out.println(EndPage);
-                            }
-
-                            catch (NumberFormatException x){
-                                System.out.println("It's Not Number!!!!!!!!!");
+                            } catch (NumberFormatException nfex) {
                                 JOptionPane.showMessageDialog(fr, "Please input number in Pages selection", "Error", JOptionPane.OK_OPTION);
                             }
                         }
 
+                        valCopy = (Integer)copy.getValue(); // Get number of copy.
 
-                        String destHostname = IPField.getText();
-                        setupConnection(destHostname);
-                        transferFile();
-                        selectionReset();
-                        int valCopy = (Integer)copy.getValue();
-                        if (EndPage - StartPage < 1){
-                            JOptionPane.showMessageDialog(fr, "Please new input in Page selection!!!!", "Error", JOptionPane.OK_OPTION);
+                        // If page range is 'page' check validation first.
+                        if ((PageSelect.isSelected() && pageRangeValidation()) || AllSelect.isSelected()) {
+
+                            // Calculate price of work.
+                            calculator.calPrice(NumberOfPages, colorType, valCopy);
+
+                            String destHostname = IPField.getText();
+                            setupConnection(destHostname);
+                            transferFile();
+                            selectionReset();
+
+                            System.out.println(colorType);
+                            System.out.println(calculator.getPrice() + " Bath.");
+                            //test to preview file
+                            fc.getFileView();
                         }
-                        else{
-                            if (EndPage - StartPage > NumberOfPages){
-                                JOptionPane.showMessageDialog(fr, "Out of length Page", "Error", JOptionPane.OK_OPTION);
-                                startPage.setText("");
-                                startPage.setText("");
-                            }
-                            else{
-                                calculator.calPrice(NumberOfPages,colorType, valCopy);
-                            }
-
-                        }
-
-                        System.out.println(colorType);
-                        System.out.println(calculator.getPrice() + " Bath.");
-                        //test to preview file
-                        fc.getFileView();
                     }
                 } catch (NullPointerException npex){
                     JOptionPane.showMessageDialog(fr, "Please select a file!", "Error", JOptionPane.OK_OPTION);
@@ -196,7 +189,7 @@ public class EarnUI {
 
             }
         });
-        allRadioButton.addActionListener(new ActionListener() {
+        AllSelect.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 startPage.setEditable(false);
@@ -228,9 +221,6 @@ public class EarnUI {
         fr.add(panel1);
         fr.pack();
         fr.setVisible(true);
-
-
-
     }
 
     private String getFileExt() {
@@ -239,6 +229,23 @@ public class EarnUI {
             return fileName.substring(fileName.lastIndexOf(".")+1);
         }
         return "";
+    }
+
+    private boolean pageRangeValidation() {
+        if (EndPage - StartPage < 0){
+            JOptionPane.showMessageDialog(fr, "Last page cannot less than start page. Please try again.", "Error", JOptionPane.OK_OPTION);
+        }
+        else{
+            if (EndPage - StartPage > NumberOfPages){
+                JOptionPane.showMessageDialog(fr, "Out of length Page", "Error", JOptionPane.OK_OPTION);
+                startPage.setText("");
+                endPage.setText("");
+            } else{
+                NumberOfPages = EndPage - StartPage + 1;
+                return true;
+            }
+        }
+        return false;
     }
 
     private void setupConnection(String hostname) {
@@ -250,7 +257,7 @@ public class EarnUI {
 
     private void transferFile() {
         try {
-            cliSocket.sendFile(selectedFile, NumberOfPages);
+            cliSocket.sendFile(selectedFile, NumberOfPages, valCopy, calculator.getPrice());
             System.out.println(String.format("%s has been sent.", selectedFile.getName()));
             updateLogs();
             JOptionPane.showMessageDialog(fr, "File sent!", "Complete", JOptionPane.OK_OPTION);
@@ -271,6 +278,7 @@ public class EarnUI {
         while (model.getRowCount() > 0) {
             model.removeRow(model.getRowCount()-1);
         }
+
         logs.refresh();
 
         for(int i=0;i < logs.getSize(); i++) {
@@ -278,6 +286,8 @@ public class EarnUI {
             model.addRow(new Object[0]);
             model.setValueAt(i+1, i, 0);
             model.setValueAt(tempObj.get("fileName"), i, 1);
+            model.setValueAt(tempObj.get("copy") + " cp", i, 2);
+            model.setValueAt(tempObj.get("price") + " thb", i, 3);
         }
     }
 
@@ -296,7 +306,7 @@ public class EarnUI {
     private void createUIComponents() {
         // TODO: place custom component creation code here
         //Spinner
-        SpinnerModel value = new SpinnerNumberModel(1,0,99,1);
+        SpinnerModel value = new SpinnerNumberModel(1,1,99,1);
         copy = new JSpinner(value);
     }
 

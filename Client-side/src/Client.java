@@ -61,7 +61,7 @@ public class Client {
         return this.PORT;
     }
 
-    public void sendFile(File file, int page) throws UnknownHostException {
+    public void sendFile(File file, int page, int copy, double price) throws UnknownHostException {
         buff = new byte[(int) file.length()];
         try (
             FileInputStream fis = new FileInputStream(file);
@@ -75,6 +75,8 @@ public class Client {
 
             dos.writeUTF(file.getName());
             dos.writeInt(page);
+            dos.writeInt(copy);
+            dos.writeDouble(price);
             dos.writeLong(buff.length);
             dos.write(buff, 0, buff.length);
             dos.flush();

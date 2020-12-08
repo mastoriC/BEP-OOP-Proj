@@ -11,7 +11,8 @@ public class ClientHandler extends Thread {
 
     private String fileName;
     private long fileSize;
-    private int page, bytesRead;
+    private int page, copy, bytesRead;
+    private double price;
     private byte buff[];
 
     private final String DIR = "./srvFiles/";
@@ -59,11 +60,13 @@ public class ClientHandler extends Thread {
             try {
                 fileName = dis.readUTF();
                 page = dis.readInt();
+                copy = dis.readInt();
+                price = dis.readDouble();
                 fileSize = dis.readLong();
 
                 createFile(); // copy file into server's directory.
 
-                db.save(fileName, page, randedStr);
+                db.save(fileName, page, copy, price, randedStr);
                 System.out.println("File saved! (" + fileName + ", size: " + fileSize + " bytes).");
 
                 updateClient(db.getLog()); // Update new log to client.
