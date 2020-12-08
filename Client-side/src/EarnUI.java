@@ -260,7 +260,7 @@ public class EarnUI {
             cliSocket.sendFile(selectedFile, NumberOfPages, valCopy, calculator.getPrice());
             System.out.println(String.format("%s has been sent.", selectedFile.getName()));
             updateLogs();
-            JOptionPane.showMessageDialog(fr, "File sent!", "Complete", JOptionPane.OK_OPTION);
+            JOptionPane.showMessageDialog(fr, "File sent!", "Complete", JOptionPane.INFORMATION_MESSAGE);
         } catch (NullPointerException npex){
             JOptionPane.showMessageDialog(fr, "Please select file!", "Error", JOptionPane.OK_OPTION);
         } catch (UnknownHostException uhex) {
