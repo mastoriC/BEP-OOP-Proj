@@ -189,6 +189,7 @@ public class EarnUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 colorType = "color";
+
             }
         });
 
