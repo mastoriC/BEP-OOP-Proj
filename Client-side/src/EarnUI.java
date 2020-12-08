@@ -42,6 +42,8 @@ public class EarnUI {
     private JLabel Queue;
     String colorType = "";
     String printMode = "";
+    int StartPage;
+    int EndPage;
 
     private JFileChooser fc;
     FileNameExtensionFilter extFilter;
@@ -137,30 +139,41 @@ public class EarnUI {
             public void actionPerformed(ActionEvent e) {
                 try {
                     if (!selectedFile.equals(null)) {
-//                        if (startPage.getText() + endPage.getText() == ""){
-//                            System.out.println("I'm");
-//                        }
-//                            else{
-//                                try {
-//                                    int StartPage = Integer.parseInt(startPage.getText());
-//                                    int EndPage = Integer.parseInt(endPage.getText());
-//                                    System.out.println(StartPage);
-//                                    System.out.println(EndPage);
-//                                }
-//
-//                                catch (NumberFormatException x){
-//                                        System.out.println("It's Not Number!!!!!!!!!");
-//                                        JOptionPane.showMessageDialog(fr, "Please input number in Pages selection", "Error", JOptionPane.OK_OPTION);
-//                                         }
-//                            System.out.println("NOOOOOOO");
-//                            }
+                        if (startPage.getText() + endPage.getText() != ""){
+                            try {
+                                StartPage = Integer.parseInt(startPage.getText());
+                                EndPage = Integer.parseInt(endPage.getText());
+                                System.out.println(StartPage);
+                                System.out.println(EndPage);
+                            }
+
+                            catch (NumberFormatException x){
+                                System.out.println("It's Not Number!!!!!!!!!");
+                                JOptionPane.showMessageDialog(fr, "Please input number in Pages selection", "Error", JOptionPane.OK_OPTION);
+                            }
+                        }
+
 
                         String destHostname = IPField.getText();
                         setupConnection(destHostname);
                         transferFile();
                         selectionReset();
                         int valCopy = (Integer)copy.getValue();
-                        calculator.calPrice(NumberOfPages,colorType, valCopy);
+                        if (EndPage - StartPage < 1){
+                            JOptionPane.showMessageDialog(fr, "Please new input in Page selection!!!!", "Error", JOptionPane.OK_OPTION);
+                        }
+                        else{
+                            if (EndPage - StartPage > NumberOfPages){
+                                JOptionPane.showMessageDialog(fr, "Out of length Page", "Error", JOptionPane.OK_OPTION);
+                                startPage.setText("");
+                                startPage.setText("");
+                            }
+                            else{
+                                calculator.calPrice(NumberOfPages,colorType, valCopy);
+                            }
+
+                        }
+
                         System.out.println(colorType);
                         System.out.println(calculator.getPrice() + " Bath.");
                         //test to preview file
@@ -188,6 +201,8 @@ public class EarnUI {
             public void actionPerformed(ActionEvent e) {
                 startPage.setEditable(false);
                 endPage.setEditable(false);
+                startPage.setText("");
+                endPage.setText("");
                 System.out.println("All");
                 printMode = "all";
             }
