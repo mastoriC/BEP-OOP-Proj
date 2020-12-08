@@ -1,4 +1,5 @@
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.json.simple.JSONObject;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -47,12 +48,17 @@ public class EarnUI {
     private File selectedFile;
     private int NumberOfPages;
 
+    private DefaultTableModel model;
+    private LogArray logs;
+    private JSONObject tempObj;
+
     private CalPrice calculator;
 
     public EarnUI() {
 
         cliSocket = new Client();
         calculator = new CalPrice();
+        logs = new LogArray();
 
         fr = new JFrame("BEP: Print from anywhere");
         pathName.setEditable(false);
@@ -66,14 +72,16 @@ public class EarnUI {
         buttonGroupPage.add(allRadioButton);
         buttonGroupPage.add(PageSelect);
 
-
         // model table
-        DefaultTableModel model = (DefaultTableModel) tableQ.getModel();
+        model = (DefaultTableModel) tableQ.getModel();
         model.addColumn("No");
         model.addColumn("CustomerID");
 
-        for(int i=0;i <= 5; i++) {
-            model.addRow(new Object[0]); model.setValueAt(i+1, i, 0); model.setValueAt("Data Col 1", i, 1);
+        for(int i=0;i < logs.getSize(); i++) {
+            tempObj = (JSONObject)(logs.getArr().get(i));
+            model.addRow(new Object[0]);
+            model.setValueAt(i+1, i, 0);
+            model.setValueAt(tempObj.get("fileName"), i, 1);
         }
 
         CHOOSE.addActionListener(new ActionListener() {
@@ -139,14 +147,12 @@ public class EarnUI {
                             System.out.println("NOOOOOOO");
                             }
 
-
-
                         String destHostname = IPField.getText();
                         setupConnection(destHostname);
                         transferFile();
                         selectionReset();
-                        int valCoppy = (Integer)copy.getValue();
-                        calculator.calPrice(NumberOfPages, "color",valCoppy);
+                        int valCopy = (Integer)copy.getValue();
+                        calculator.calPrice(NumberOfPages, "color", valCopy);
                         System.out.println(calculator.getPrice() + " Bath.");
                         //test to preview file
                         fc.getFileView();
@@ -156,12 +162,6 @@ public class EarnUI {
                 }
             }
         });
-
-//        fr.setContentPane(new EarnUI().panel1);
-        fr.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        fr.add(panel1);
-        fr.pack();
-        fr.setVisible(true);
 
         PageSelect.addActionListener(new ActionListener() {
             @Override
@@ -180,6 +180,13 @@ public class EarnUI {
                 System.out.println("All");
             }
         });
+
+//        fr.setContentPane(new EarnUI().panel1);
+        fr.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        fr.setResizable(false);
+        fr.add(panel1);
+        fr.pack();
+        fr.setVisible(true);
     }
 
     private String getFileExt() {
@@ -201,6 +208,7 @@ public class EarnUI {
         try {
             cliSocket.sendFile(selectedFile, NumberOfPages);
             System.out.println(String.format("%s has been sent.", selectedFile.getName()));
+            updateLogs();
             JOptionPane.showMessageDialog(fr, "File sent!", "Complete", JOptionPane.OK_OPTION);
         } catch (NullPointerException npex){
             JOptionPane.showMessageDialog(fr, "Please select file!", "Error", JOptionPane.OK_OPTION);
@@ -212,6 +220,21 @@ public class EarnUI {
     private void selectionReset() {
         selectedFile = null;
         pathName.setText("Choose file to upload.");
+    }
+
+    private void updateLogs() {
+        // removing old logs
+        while (model.getRowCount() > 0) {
+            model.removeRow(model.getRowCount()-1);
+        }
+        logs.refresh();
+
+        for(int i=0;i < logs.getSize(); i++) {
+            tempObj = (JSONObject)(logs.getArr().get(i));
+            model.addRow(new Object[0]);
+            model.setValueAt(i+1, i, 0);
+            model.setValueAt(tempObj.get("fileName"), i, 1);
+        }
     }
 
     public static void main(String[] args) {
