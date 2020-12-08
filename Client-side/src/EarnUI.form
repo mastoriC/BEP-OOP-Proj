@@ -51,7 +51,8 @@
       <grid id="e66d1" binding="westLayout" layout-manager="BorderLayout" hgap="0" vgap="0">
         <constraints border-constraint="West"/>
         <properties>
-          <preferredSize width="170" height="100"/>
+          <minimumSize width="100" height="48"/>
+          <preferredSize width="250" height="100"/>
         </properties>
         <border type="none"/>
         <children>

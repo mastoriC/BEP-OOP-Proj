@@ -37,9 +37,10 @@ public class EarnUI {
     private JRadioButton blackRadioButton;
     private JRadioButton colorRadioButton;
     private JRadioButton PageSelect;
-    private ButtonGroup buttonGroupPage;
+    private ButtonGroup buttonGroupPage, buttonGroupColor;
     private JTextField IPField;
     private JLabel Queue;
+    String colorType = "";
 
     private JFileChooser fc;
     FileNameExtensionFilter extFilter;
@@ -67,7 +68,7 @@ public class EarnUI {
         startPage.setEditable(false);
         endPage.setEditable(false);
 
-        // button group
+        // button group page selection
         buttonGroupPage = new ButtonGroup();
         buttonGroupPage.add(allRadioButton);
         buttonGroupPage.add(PageSelect);
@@ -76,6 +77,12 @@ public class EarnUI {
         model = (DefaultTableModel) tableQ.getModel();
         model.addColumn("No");
         model.addColumn("CustomerID");
+
+        // button group black and color
+        buttonGroupColor = new ButtonGroup();
+        buttonGroupColor.add(blackRadioButton);
+        buttonGroupColor.add(colorRadioButton);
+
 
         for(int i=0;i < logs.getSize(); i++) {
             tempObj = (JSONObject)(logs.getArr().get(i));
@@ -129,30 +136,31 @@ public class EarnUI {
             public void actionPerformed(ActionEvent e) {
                 try {
                     if (!selectedFile.equals(null)) {
-                        if (startPage.getText() + endPage.getText() == ""){
-                            System.out.println("I'm");
-                        }
-                            else{
-                                try {
-                                    int StartPage = Integer.parseInt(startPage.getText());
-                                    int EndPage = Integer.parseInt(endPage.getText());
-                                    System.out.println(StartPage);
-                                    System.out.println(EndPage);
-                                }
-
-                                catch (NumberFormatException x){
-                                        System.out.println("It's Not Number!!!!!!!!!");
-                                        JOptionPane.showMessageDialog(fr, "Please input number in Pages selection", "Error", JOptionPane.OK_OPTION);
-                                         }
-                            System.out.println("NOOOOOOO");
-                            }
+//                        if (startPage.getText() + endPage.getText() == ""){
+//                            System.out.println("I'm");
+//                        }
+//                            else{
+//                                try {
+//                                    int StartPage = Integer.parseInt(startPage.getText());
+//                                    int EndPage = Integer.parseInt(endPage.getText());
+//                                    System.out.println(StartPage);
+//                                    System.out.println(EndPage);
+//                                }
+//
+//                                catch (NumberFormatException x){
+//                                        System.out.println("It's Not Number!!!!!!!!!");
+//                                        JOptionPane.showMessageDialog(fr, "Please input number in Pages selection", "Error", JOptionPane.OK_OPTION);
+//                                         }
+//                            System.out.println("NOOOOOOO");
+//                            }
 
                         String destHostname = IPField.getText();
                         setupConnection(destHostname);
                         transferFile();
                         selectionReset();
                         int valCopy = (Integer)copy.getValue();
-                        calculator.calPrice(NumberOfPages, "color", valCopy);
+                        calculator.calPrice(NumberOfPages,colorType, valCopy);
+                        System.out.println(colorType);
                         System.out.println(calculator.getPrice() + " Bath.");
                         //test to preview file
                         fc.getFileView();
@@ -181,12 +189,29 @@ public class EarnUI {
             }
         });
 
+        blackRadioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                colorType = "black";
+            }
+        });
+        colorRadioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                colorType = "color";
+
+            }
+        });
+
 //        fr.setContentPane(new EarnUI().panel1);
         fr.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         fr.setResizable(false);
         fr.add(panel1);
         fr.pack();
         fr.setVisible(true);
+
+
+
     }
 
     private String getFileExt() {
@@ -252,7 +277,7 @@ public class EarnUI {
     private void createUIComponents() {
         // TODO: place custom component creation code here
         //Spinner
-        SpinnerModel value = new SpinnerNumberModel(0,0,99,1);
+        SpinnerModel value = new SpinnerNumberModel(1,0,99,1);
         copy = new JSpinner(value);
     }
 
