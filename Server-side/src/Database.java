@@ -10,7 +10,8 @@ public class Database {
 
     private JSONObject printObj;
     private String fileName, rand;
-    private int page;
+    private int page, copy;
+    private double price;
     private final String PATH = "./srvFiles/inQueue.json";
     private JSONArray logArr;
     private File log;
@@ -22,6 +23,8 @@ public class Database {
         printObj.put("fileName", fileName);
         printObj.put("rand", rand);
         printObj.put("page", page);
+        printObj.put("copy", copy);
+        printObj.put("price", price);
         logArr.add(printObj);
         System.out.println(logArr);
     }
@@ -35,11 +38,19 @@ public class Database {
     private void setPage(int page) {
         this.page = page;
     }
+    private void setCopy(int copy) {
+        this.copy = copy;
+    }
+    private void setPrice(double price) {
+        this.price = price;
+    }
 
-    public void save(String fileName, int page, String rand) throws IOException {
+    public void save(String fileName, int page, int copy, double price, String rand) throws IOException {
         setFileName(fileName);
         setRand(rand);
+        setCopy(copy);
         setPage(page);
+        setPrice(price);
         addLog();
 
         FileWriter fw = new FileWriter(PATH);

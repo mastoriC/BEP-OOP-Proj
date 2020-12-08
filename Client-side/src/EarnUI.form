@@ -147,7 +147,7 @@
                   <text value="Page Range: "/>
                 </properties>
               </component>
-              <component id="4781f" class="javax.swing.JRadioButton" binding="allRadioButton" default-binding="true">
+              <component id="4781f" class="javax.swing.JRadioButton" binding="AllSelect">
                 <constraints>
                   <grid row="1" column="2" row-span="1" col-span="5" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
