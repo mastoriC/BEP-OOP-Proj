@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="350.0" y="1562.0">com</node>
+    <node x="942.0" y="1223.0">Randomizer</node>
+    <node x="1332.0" y="1412.0">netscape</node>
+    <node x="983.1029961556196" y="741.9688190445304">Server</node>
+    <node x="0.0" y="0.0">EarnUI</node>
+    <node x="0.0" y="1412.0">toolbarButtonGraphics</node>
+    <node x="513.0" y="1562.0">sun</node>
+    <node x="1152.0" y="1487.0">apple</node>
+    <node x="404.0" y="1487.0">testUI</node>
+    <node x="865.0" y="1412.0">groovyjarjarasm</node>
+    <node x="179.0" y="1562.0">java</node>
+    <node x="1331.0" y="1487.0">javax</node>
+    <node x="769.0" y="0.0">Database</node>
+    <node x="304.0" y="1412.0">groovyjarjarpicocli</node>
+    <node x="0.0" y="1223.0">testTable</node>
+    <node x="1110.0" y="0.0">Client</node>
+    <node x="0.0" y="1562.0">META-INF.maven</node>
+    <node x="0.0" y="1487.0">META-INF.services</node>
+    <node x="591.0" y="1487.0">images</node>
+    <node x="1510.0" y="1487.0">junit</node>
+    <node x="1122.0" y="1412.0">META-INF.providers</node>
+    <node x="730.0" y="1223.0">test</node>
+    <node x="676.0" y="1562.0">org</node>
+    <node x="234.0" y="1223.0">CalPrice</node>
+    <node x="409.4972935989499" y="533.5941907949746">ClientHandler</node>
+    <node x="1414.0" y="0.0">LogArray</node>
+    <node x="965.0" y="1487.0">META-INF.groovy</node>
+    <node x="202.0" y="1487.0">META-INF.licenses</node>
+    <node x="839.0" y="1562.0">jdk</node>
+    <node x="778.0" y="1487.0">groovy</node>
+    <node x="1134.0" y="1223.0">groovyjarjarcommonscli</node>
+    <node x="592.0" y="1412.0">groovyjarjarantlr</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="Hierarchic Group" zoom="0.6278179293910616" x="637.1040253918618" y="538.3126858752221" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
