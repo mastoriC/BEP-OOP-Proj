@@ -275,8 +275,8 @@ public class EarnUI {
             cliSocket.sendFile(selectedFile, NumberOfPages, valCopy, calculator.getPrice());
             System.out.println(String.format("%s has been sent.", selectedFile.getName()));
             updateLogs();
-            JOptionPane.showMessageDialog(fr, "File sent!", "Complete", JOptionPane.OK_OPTION);
-        } catch (NullPointerException npex) {
+            JOptionPane.showMessageDialog(fr, "File sent!", "Complete", JOptionPane.INFORMATION_MESSAGE);
+        } catch (NullPointerException npex){
             JOptionPane.showMessageDialog(fr, "Please select file!", "Error", JOptionPane.OK_OPTION);
         } catch (ConnectException conex) {
             JOptionPane.showMessageDialog(fr, "No response from server.", "Error", JOptionPane.OK_OPTION);
